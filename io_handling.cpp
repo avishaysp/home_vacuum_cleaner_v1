@@ -34,6 +34,14 @@ class FileReader {
         }
     }
 
+    House::Location parse_location(const std::string &str) const {
+        auto tmp_vec = split(str, '|');
+        return House::Location(
+            str_to_size_t(tmp_vec[0].substr(1)),                            // x
+            str_to_size_t(tmp_vec[1].substr(0, tmp_vec[1].size() - 1))      // y
+        );
+    }
+
 public:
     FileReader(const std::string& filePath) : filePath(filePath) {}
 
@@ -58,7 +66,8 @@ public:
             auto args = split(line, ',');
 
             size_t max_battery_steps = str_to_size_t(args[0]);
-            size_t max_num_of_steps = str_to_size_t(args[0]);
+            size_t max_num_of_steps = str_to_size_t(args[1]);
+            House::Location docking_loc = parse_location(args[2]);
         }
 
         while (std::getline(file, line)) {
