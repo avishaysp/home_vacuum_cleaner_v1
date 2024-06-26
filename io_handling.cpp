@@ -3,13 +3,13 @@
 #include <string>
 #include <vector>
 #include <sstream>
-#include "utils.h"
+#include "house.h"
 
 
 class FileReader {
     std::string filePath;
 
-    std::vector<std::string> split(const std::string &str, char delimiter) const {
+    std::vector<std::string> split(const std::string &str, const char delimiter) const {
         std::vector<std::string> result;
         std::stringstream ss(str);
         std::string item;
@@ -21,7 +21,7 @@ class FileReader {
         return result;
     }
 
-    size_t str_to_size_t(std::string str) const {
+    size_t str_to_size_t(const std::string &str) const {
         try {
             size_t res = std::stoull(str);
             return res;
@@ -45,7 +45,7 @@ public:
     };
 
 
-    void readFile() const {
+    const file_reader_output readFile() const {
         std::ifstream file(filePath);
 
         if (!file.is_open()) {
@@ -56,8 +56,6 @@ public:
         std::string line;
         if (std::getline(file, line)) {
             auto args = split(line, ',');
-
-
 
             size_t max_battery_steps = str_to_size_t(args[0]);
             size_t max_num_of_steps = str_to_size_t(args[0]);
