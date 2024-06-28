@@ -1,3 +1,4 @@
+// house.h
 #pragma once
 
 #include <cstddef>
@@ -8,8 +9,7 @@ class House {
     std::vector<std::vector<int>> mat;
 
 public:
-    House(std::vector<std::vector<int>> &mat);
-    House::House(size_t rows, size_t cols) {}
+    House(size_t rows, size_t cols);
 
     void print() const;
 

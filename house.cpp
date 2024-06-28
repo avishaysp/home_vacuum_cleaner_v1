@@ -1,8 +1,7 @@
+// house.cpp
 #include "house.h"
 
 /* House */
-
-House::House(std::vector<std::vector<int>> &mat) : mat(mat) {}
 
 House::House(size_t rows, size_t cols) : mat(rows, std::vector<int>(cols)) {}
 
