@@ -9,6 +9,7 @@ class House {
 
 public:
     House(std::vector<std::vector<int>> &mat);
+    House::House(size_t rows, size_t cols) {}
 
     void print() const;
 
