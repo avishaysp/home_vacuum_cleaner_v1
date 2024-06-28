@@ -1,3 +1,4 @@
+// io_handling.cpp
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -42,6 +43,43 @@ class FileReader {
         );
     }
 
+
+    std::pair<size_t, size_t> get_house_dimensions(const std::string& filename) const {
+        // opens a new fd, to avoid seek when returns
+        std::ifstream file(filename);
+        if (!file.is_open()) {
+            std::cerr << "Failed to open the file." << std::endl;
+            std::exit(EXIT_FAILURE);
+        }
+
+        // remove first line with the args
+        std::string first_line;
+        if (!std::getline(file, first_line)) {
+            std::cerr << "Error or empty file content." << std::endl;
+            std::exit(EXIT_FAILURE);
+        }
+
+        std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+        std::istringstream stream(content);
+        std::string line;
+        size_t rows = 0;
+        size_t maxCols = 0;
+
+        while (std::getline(stream, line)) {
+            if (!line.empty()) {
+                rows++;
+                size_t cols = line.length();
+                if (cols > maxCols) {
+                    maxCols = cols;
+                }
+            }
+        }
+
+        file.close();
+        return {rows, maxCols};
+    }
+
+
 public:
     FileReader(const std::string& filePath) : filePath(filePath) {}
 
@@ -53,7 +91,7 @@ public:
     };
 
 
-    const file_reader_output readFile() const {
+    file_reader_output readFile() const {
         std::ifstream file(filePath);
 
         if (!file.is_open()) {
@@ -61,17 +99,23 @@ public:
             return;
         }
 
-        std::string line;
-        if (std::getline(file, line)) {
-            auto args = split(line, ',');
-
+        std::string first_line;
+        if (std::getline(file, first_line)) {
+            auto args = split(first_line, ',');
             size_t max_battery_steps = str_to_size_t(args[0]);
             size_t max_num_of_steps = str_to_size_t(args[1]);
             House::Location docking_loc = parse_location(args[2]);
+        } else {
+            std::cerr << "Failed to read first line of input file" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
+        auto [rows, cols] = this->get_house_dimensions(filePath);
+        House house = House(rows, cols);
+
+        std::string line;
         while (std::getline(file, line)) {
-            std::cout << line << std::endl;
+            // populate mat via enum vals
         }
 
         file.close();
