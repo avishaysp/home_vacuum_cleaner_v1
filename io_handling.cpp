@@ -79,6 +79,24 @@ class FileReader {
         return {rows, maxCols};
     }
 
+    void surround_house_w_walls(House& house) const {
+        size_t rows = house.getRowsCount();
+        size_t cols = house.getColsCount();
+        for (size_t i = 0; i < cols; i++) {
+            int value = (i == 0 || i == cols - 1)? '+' : '-';
+            char ch = House::passages_to_negs.find(value)->second;
+            house.setVal(0, i, ch);
+            house.setVal(rows - 1, i, ch);
+        }
+        for (size_t j = 0; j < rows; j++) {
+            int value = (j == 0 || j == rows - 1)? '+' : '|';
+            char ch = House::passages_to_negs.find(value)->second;
+            house.setVal(j, 0, ch);
+            house.setVal(j, cols - 1, ch);
+        }
+
+    }
+
 
 public:
     FileReader(const std::string& filePath) : filePath(filePath) {}
@@ -115,12 +133,14 @@ public:
         }
 
         auto [rows, cols] = this->get_house_dimensions(filePath);
-        House house = House(rows, cols);
+        // added padding for surrounding the house with walls for open house case
+        House house = House(rows + 2, cols + 2);
+        surround_house_w_walls(house);
 
         std::string line;
-        size_t i = 0;
+        size_t i = 1; // start from 1 for padding
         while (std::getline(file, line)) {
-            size_t j = 0;
+            size_t j = 1; // start from 1 for padding
             for (char& ch : line) {
                 if (isdigit(ch)) {
                     house.setVal(i, j, ch - '0');
