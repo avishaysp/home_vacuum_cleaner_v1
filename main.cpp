@@ -1,5 +1,5 @@
 // main.cpp
-#include "io_handling.cpp"
+#include "io_handling.h"
 
 int main() {
     FileReader fr = FileReader("INPUT_FORMAT.txt");
