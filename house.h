@@ -14,6 +14,9 @@ class House {
 public:
     House(size_t rows, size_t cols);
 
+    static const std::unordered_map<char, int> passages_to_negs;
+    static const std::unordered_map<int, char> negs_to_passages;
+
     void print() const;
 
     int getVal(size_t row, size_t col);
@@ -22,15 +25,8 @@ public:
     int getRowsCount();
     int getColsCount();
 
-    enum PASSAGES {
-        OPEN = ' ',
-        CORNER = '+',
-        VERTICAL_WALL = '-',
-        HORIZONTAL_WALL = '|',
-    };
+    size_t calc_total_dirt() const;
 
-    static const std::unordered_map<char, int> passages_to_negs;
-    static const std::unordered_map<int, char> negs_to_passages;
 
     // Inner class Location
     class Location {
