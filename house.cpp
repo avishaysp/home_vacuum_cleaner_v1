@@ -57,6 +57,18 @@ int House::getColsCount() {
     return cols;
 }
 
+size_t House::calc_total_dirt() const {
+    size_t sum = 0;
+    for (size_t i = 0; i < rows; i++) {
+        for (size_t j = 0; i < cols; j++) {
+            if (mat[i][j] > 0) {
+                sum += mat[i][j];
+            }
+        }
+    }
+    return sum;
+}
+
 /* Location */
 
 House::Location::Location(size_t x, size_t y) : x(x), y(y) {}
