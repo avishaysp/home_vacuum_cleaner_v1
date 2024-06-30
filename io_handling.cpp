@@ -92,19 +92,23 @@ public:
 
 
     file_reader_output readFile() const {
+        size_t max_battery_steps;
+        size_t max_num_of_steps;
+        House::Location docking_loc;
+
         std::ifstream file(filePath);
 
         if (!file.is_open()) {
             std::cerr << "Failed to open the file: " << filePath << std::endl;
-            return;
+            std::exit(EXIT_FAILURE);
         }
 
         std::string first_line;
         if (std::getline(file, first_line)) {
             auto args = split(first_line, ',');
-            size_t max_battery_steps = str_to_size_t(args[0]);
-            size_t max_num_of_steps = str_to_size_t(args[1]);
-            House::Location docking_loc = parse_location(args[2]);
+            max_battery_steps = str_to_size_t(args[0]);
+            max_num_of_steps = str_to_size_t(args[1]);
+            docking_loc = parse_location(args[2]);
         } else {
             std::cerr << "Failed to read first line of input file" << std::endl;
             std::exit(EXIT_FAILURE);
@@ -114,10 +118,27 @@ public:
         House house = House(rows, cols);
 
         std::string line;
+        size_t i = 0;
         while (std::getline(file, line)) {
-            // populate mat via enum vals
+            size_t j = 0;
+            for (char& ch : line) {
+                if (isdigit(ch)) {
+                    house.setVal(i, j, ch - '0');
+                } else {
+                    auto it = House::passages_to_negs.find(ch);
+                    if (it != House::passages_to_negs.end()) {
+                        house.setVal(i, j, it->second);
+                    } else {
+                        std::cerr << "Unexpected character '" << ch << "' at (" << i << ", " << j << ")" << std::endl;
+                        std::exit(EXIT_FAILURE);
+                    }
+                }
+                j++;
+            }
+            i++;
         }
-
         file.close();
+
+        return {max_battery_steps, max_num_of_steps, docking_loc, house};
     }
 };
