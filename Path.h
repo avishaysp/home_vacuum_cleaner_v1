@@ -1,29 +1,19 @@
+// Path.h
+
 #include <vector>
 #include "house.h"
 
 class Path {
-    enum DIRECTIONS {
-        NORTH = 'north',
-        SOUTH = 'south',
-        EAST = 'east',
-        WEST = 'west'
-    };
+public:
 
+    Path(House::Location start_loc);
 
-    struct entry {
-        House::Location location;
-        DIRECTIONS direction;
-    };
+    void print();
 
-    private: 
-        std::vector<entry> path;
+    void addEntry(House::Location loc);
+    House::Location popStep();
 
-    public:
-        Path();
+private:
+    std::vector<House::Location> vec;
 
-        void print();
-
-        void addEntry(House::Location loc, DIRECTIONS dir);
-        entry removeEntry();
-        
 };
