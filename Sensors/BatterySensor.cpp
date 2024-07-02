@@ -1,8 +1,8 @@
 #include "BatterySensor.h"
 
-BatterySensor::BatterySensor(int& battery) : battery(battery) {} // Initialize battery to 100 in the constructor
+BatterySensor::BatterySensor(size_t& battery) : battery(battery) {}
 
-int BatterySensor::getBattery() const {
+size_t BatterySensor::getBattery() const {
     return battery;
 }
- 
+

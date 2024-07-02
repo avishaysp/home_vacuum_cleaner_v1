@@ -1,13 +1,13 @@
+// BatterySensor.h
+
 #pragma once
+#include <vector> // for size_t
 
 class BatterySensor {
-    int& battery;
-
+    size_t& battery;
 
 
 public:
-    BatterySensor(int& battery); // Constructor
-    int getBattery() const;
-    void setBattery(int newBattery);
-
+    BatterySensor(size_t& battery);
+    size_t getBattery() const;
 };
