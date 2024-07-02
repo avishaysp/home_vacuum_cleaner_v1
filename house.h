@@ -11,6 +11,52 @@ class House {
     size_t cols;
 
 
+    // Inner class Location
+    class Location {
+        size_t row;
+        size_t col;
+
+    public:
+        // Constructors
+        // Location();
+        Location(size_t row, size_t col);
+
+        // Getters
+        size_t getRow() const;
+        size_t getCol() const;
+
+        // Setters
+        void setRow(size_t x);
+        void setCol(size_t y);
+        void setBoth(size_t x, size_t y);
+
+        bool operator==(const Location &other) const;
+        bool operator!=(const Location &other) const;
+    };
+
+    // Inner class Location
+    class Location {
+        size_t row;
+        size_t col;
+
+    public:
+        // Constructors
+        // Location();
+        Location(size_t row, size_t col);
+
+        // Getters
+        size_t getRow() const;
+        size_t getCol() const;
+
+        // Setters
+        void setRow(size_t x);
+        void setCol(size_t y);
+        void setBoth(size_t x, size_t y);
+
+        bool operator==(const Location &other) const;
+        bool operator!=(const Location &other) const;
+    };
+
 public:
     House(size_t rows, size_t cols);
 
@@ -19,8 +65,8 @@ public:
 
     void print() const;
 
-    int getVal(size_t row, size_t col);
-    void setVal(size_t row, size_t col, int value);
+    int getVal(Location location);
+    void setVal(Location location, int value);
 
     int getRowsCount();
     int getColsCount();
