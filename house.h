@@ -32,12 +32,12 @@ public:
         size_t getCol() const;
 
         // Setters
-        void setRow(size_t x);
-        void setCol(size_t y);
-        void setBoth(size_t x, size_t y);
+        void setRow(size_t row);
+        void setCol(size_t col);
+        void setBoth(size_t row, size_t col);
 
-        bool operator==(const Location &other) const;
-        bool operator!=(const Location &other) const;
+        bool operator==(const Location& other) const;
+        bool operator!=(const Location& other) const;
 
         void print() const;
     };
@@ -48,6 +48,8 @@ public:
     int getVal(size_t row, size_t col) const;
     void setVal(Location loc, int value);
     void setVal(size_t row, size_t col, int value);
+
+    void removeOneDirt(const Location& loc);
 
     int getRowsCount();
     int getColsCount();

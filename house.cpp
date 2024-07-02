@@ -54,6 +54,13 @@ void House::setVal(size_t row, size_t col, int value) {
     }
 }
 
+void House::removeOneDirt(Location loc) {
+    size_t row = loc.getRow();
+    size_t col = loc.getCol();
+    int val = mat[row][col];
+    mat[row][col] = val == 0 ? 0 : val - 1;
+}
+
 int House::getRowsCount() {
     return rows;
 }
@@ -104,11 +111,11 @@ void House::Location::setBoth(size_t row, size_t col) {
 }
 
 // Overloaded operators for Location
-bool House::Location::operator==(const House::Location &other) const {
+bool House::Location::operator==(const House::Location& other) const {
     return (row == other.row) && (col == other.col);
 }
 
-bool House::Location::operator!=(const House::Location &other) const {
+bool House::Location::operator!=(const House::Location& other) const {
     return !(*this == other);
 }
 
