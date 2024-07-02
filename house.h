@@ -11,51 +11,6 @@ class House {
     size_t cols;
 
 
-    // Inner class Location
-    class Location {
-        size_t row;
-        size_t col;
-
-    public:
-        // Constructors
-        // Location();
-        Location(size_t row, size_t col);
-
-        // Getters
-        size_t getRow() const;
-        size_t getCol() const;
-
-        // Setters
-        void setRow(size_t x);
-        void setCol(size_t y);
-        void setBoth(size_t x, size_t y);
-
-        bool operator==(const Location &other) const;
-        bool operator!=(const Location &other) const;
-    };
-
-    // Inner class Location
-    class Location {
-        size_t row;
-        size_t col;
-
-    public:
-        // Constructors
-        // Location();
-        Location(size_t row, size_t col);
-
-        // Getters
-        size_t getRow() const;
-        size_t getCol() const;
-
-        // Setters
-        void setRow(size_t x);
-        void setCol(size_t y);
-        void setBoth(size_t x, size_t y);
-
-        bool operator==(const Location &other) const;
-        bool operator!=(const Location &other) const;
-    };
 
 public:
     House(size_t rows, size_t cols);
@@ -63,28 +18,14 @@ public:
     static const std::unordered_map<char, int> passages_to_negs;
     static const std::unordered_map<int, char> negs_to_passages;
 
-    void print() const;
-
-    int getVal(Location loc);
-    void setVal(Location loc, int value);
-
-    int getRowsCount();
-    int getColsCount();
-
-    size_t calc_total_dirt() const;
-
-
-    // Inner class Location
     class Location {
         size_t row;
         size_t col;
 
     public:
         // Constructors
-        // Location();
-        Location(size_t x, size_t y);
         Location();
-
+        Location(size_t row, size_t col);
 
         // Getters
         size_t getRow() const;
@@ -100,4 +41,16 @@ public:
 
         void print() const;
     };
+
+    void print() const;
+
+    int getVal(Location loc) const;
+    int getVal(size_t row, size_t col) const;
+    void setVal(Location loc, int value);
+    void setVal(size_t row, size_t col, int value);
+
+    int getRowsCount();
+    int getColsCount();
+
+    size_t calc_total_dirt() const;
 };

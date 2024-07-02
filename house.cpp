@@ -33,20 +33,22 @@ void House::print() const {
         std::cout << std::endl;
     }
 }
-int House::getVal(Location loc) {
-    size_t row = loc.getRow();
-    size_t col = loc.getCol();
+int House::getVal(House::Location loc) const {
+   return House::getVal(loc.getRow(), loc.getCol());
+}
 
+int House::getVal(size_t row, size_t col) const {
     if (row < rows && col < cols) {
         return mat[row][col];
     }
     return -99;
 }
 
-void House::setVal(Location loc, int value) {
-    size_t row = loc.getRow();
-    size_t col = loc.getCol();
+void House::setVal(House::Location loc, int value) {
+    return House::setVal(loc.getRow(), loc.getCol(), value);
+}
 
+void House::setVal(size_t row, size_t col, int value) {
     if (row < rows && col < cols) {
         mat[row][col] = value;
     }
