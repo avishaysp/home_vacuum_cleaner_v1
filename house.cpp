@@ -41,11 +41,8 @@ int House::getVal(size_t row, size_t col) {
 }
 
 void House::setVal(size_t row, size_t col, int value) {
-    // std::cout << "called setVal with row: " << row << " col: " << col << " value: " << value << std::endl;
     if (row >= 0 && row < rows && col >= 0 && col < cols) {
         mat[row][col] = value;
-    } else {
-        std::cout << "called setVal with row: " << row << " col: " << col << " value: " << value << std::endl;
     }
 }
 
