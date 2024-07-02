@@ -49,7 +49,7 @@ public:
     void setVal(Location loc, int value);
     void setVal(size_t row, size_t col, int value);
 
-    void removeOneDirt(const Location& loc);
+    void removeOneDirt(Location loc);
 
     int getRowsCount();
     int getColsCount();

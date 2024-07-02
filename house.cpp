@@ -54,7 +54,7 @@ void House::setVal(size_t row, size_t col, int value) {
     }
 }
 
-void House::removeOneDirt(Location loc) {
+void House::removeOneDirt(House::Location loc) {
     size_t row = loc.getRow();
     size_t col = loc.getCol();
     int val = mat[row][col];
