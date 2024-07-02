@@ -137,6 +137,7 @@ FileReader::file_reader_output FileReader::readFile() const {
         max_battery_steps = str_to_size_t(args[0]);
         max_num_of_steps = str_to_size_t(args[1]);
         docking_loc = parse_location(args[2]);
+        docking_loc.setBoth(docking_loc.getRow() + 1, docking_loc.getCol() + 1); // acount for shift due to surraunding by walls
     } else {
         std::cerr << "Failed to read first line of input file" << std::endl;
         std::exit(EXIT_FAILURE);
