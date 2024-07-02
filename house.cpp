@@ -33,15 +33,21 @@ void House::print() const {
         std::cout << std::endl;
     }
 }
-int House::getVal(size_t row, size_t col) {
-    if (row >= 0 && row < rows && col >= 0 && col < cols) {
+int House::getVal(Location loc) {
+    size_t row = loc.getRow();
+    size_t col = loc.getCol();
+
+    if (row < rows && col < cols) {
         return mat[row][col];
     }
     return -99;
 }
 
-void House::setVal(size_t row, size_t col, int value) {
-    if (row >= 0 && row < rows && col >= 0 && col < cols) {
+void House::setVal(Location loc, int value) {
+    size_t row = loc.getRow();
+    size_t col = loc.getCol();
+
+    if (row < rows && col < cols) {
         mat[row][col] = value;
     }
 }
@@ -68,36 +74,36 @@ size_t House::calc_total_dirt() const {
 
 /* Location */
 
-House::Location::Location(size_t x, size_t y) : x(x), y(y) {}
-House::Location::Location() : x(0), y(0) {}
+House::Location::Location(size_t row, size_t col) : row(row), col(col) {}
+House::Location::Location() : row(0), col(0) {}
 
 
 // Getters for Location
-size_t House::Location::getX() const {
-    return x;
+size_t House::Location::getRow() const {
+    return row;
 }
 
-size_t House::Location::getY() const {
-    return y;
+size_t House::Location::getCol() const {
+    return col;
 }
 
 // Setters for Location
-void House::Location::setX(size_t x) {
-    this->x = x;
+void House::Location::setRow(size_t row) {
+    this->row = row;
 }
 
-void House::Location::setY(size_t y) {
-    this->y = y;
+void House::Location::setCol(size_t col) {
+    this->col = col;
 }
 
-void House::Location::setBoth(size_t x, size_t y) {
-    this->x = x;
-    this->y = y;
+void House::Location::setBoth(size_t row, size_t col) {
+    this->row = row;
+    this->col = col;
 }
 
 // Overloaded operators for Location
 bool House::Location::operator==(const House::Location &other) const {
-    return (x == other.x) && (y == other.y);
+    return (row == other.row) && (col == other.col);
 }
 
 bool House::Location::operator!=(const House::Location &other) const {
@@ -105,5 +111,5 @@ bool House::Location::operator!=(const House::Location &other) const {
 }
 
 void House::Location::print() const {
-    std::cout << "(" << (this->x) << "|" << (this->y) << ")" << std::endl;
+    std::cout << "(" << (this->row) << "|" << (this->col) << ")" << std::endl;
 }

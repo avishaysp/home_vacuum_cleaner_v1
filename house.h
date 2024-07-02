@@ -65,8 +65,8 @@ public:
 
     void print() const;
 
-    int getVal(Location location);
-    void setVal(Location location, int value);
+    int getVal(Location loc);
+    void setVal(Location loc, int value);
 
     int getRowsCount();
     int getColsCount();
@@ -76,8 +76,8 @@ public:
 
     // Inner class Location
     class Location {
-        size_t x;
-        size_t y;
+        size_t row;
+        size_t col;
 
     public:
         // Constructors
@@ -87,12 +87,12 @@ public:
 
 
         // Getters
-        size_t getX() const;
-        size_t getY() const;
+        size_t getRow() const;
+        size_t getCol() const;
 
         // Setters
-        void setX(size_t x);
-        void setY(size_t y);
+        void setRow(size_t x);
+        void setCol(size_t y);
         void setBoth(size_t x, size_t y);
 
         bool operator==(const Location &other) const;
