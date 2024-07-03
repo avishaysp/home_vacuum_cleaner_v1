@@ -2,31 +2,38 @@
 CXX = g++
 
 # Compiler flags
-CXXFLAGS = -std=c++20 -Wall -Wextra -Werror -pedantic -I./utils -g
+CXXFLAGS = -std=c++20 -Wall -Wextra -Werror -pedantic -I./utils
+
+# Directories
+SRCDIR = src
+BUILDDIR = build
+BINDIR = bin
 
 # Source files
-SRCS = house.cpp io_handling.cpp main.cpp
+SRCS = $(wildcard $(SRCDIR)/*.cpp)
 
 # Object files
-OBJS = $(SRCS:.cpp=.o)
+OBJS = $(patsubst $(SRCDIR)/%.cpp, $(BUILDDIR)/%.o, $(SRCS))
 
 # Executable name
-EXEC = test
+EXEC = $(BINDIR)/test
 
 # Default target
 all: $(EXEC)
 
 # Link object files to create executable
 $(EXEC): $(OBJS)
+	@mkdir -p $(BINDIR)
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
 # Compile source files to object files
-%.o: %.cpp
+$(BUILDDIR)/%.o: $(SRCDIR)/%.cpp
+	@mkdir -p $(BUILDDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Clean up build files
 clean:
-	rm -f $(OBJS) $(EXEC)
+	rm -rf $(BUILDDIR) $(BINDIR)
 
 # Phony targets
 .PHONY: all clean

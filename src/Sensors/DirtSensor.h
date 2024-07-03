@@ -1,7 +1,7 @@
 // DirtSensor.h
 
 #pragma once
-#include "house.h"
+#include "../house.h"
 
 class DirtSensor {
     const House& house;
