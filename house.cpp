@@ -7,21 +7,6 @@ House::House(size_t rows, size_t cols) : mat(rows, std::vector<House::Tile>(cols
     std::cout << "Creating a house with " << rows << " rows and " << cols << " colums" << std::endl;
 }
 
-const std::unordered_map<char, int> House::passages_to_negs = {
-    {' ', -1},
-    {'+', -2},
-    {'-', -3},
-    {'|', -4},
-};
-
-const std::unordered_map<int, char> House::negs_to_passages = {
-    {-1, ' '},
-    {-2, '+'},
-    {-3, '-'},
-    {-4, '|'},
-};
-
-
 size_t House::getDirt(House::Location loc) const {
    return House::getDirt(loc.getRow(), loc.getCol());
 }
@@ -61,13 +46,6 @@ const House::Tile& House::getTile(House::Location loc) const {
 
 const House::Tile& House::getTile(size_t row, size_t col) const {
     return mat[row][col];
-}
-
-void House::removeOneDirt(House::Location loc) {
-    size_t row = loc.getRow();
-    size_t col = loc.getCol();
-    size_t val = mat[row][col].getDirt();
-    mat[row][col].setDirt(val == 0 ? 0 : val - 1);
 }
 
 size_t House::getRowsCount() const {
@@ -132,6 +110,8 @@ void House::Location::print() const {
     std::cout << "(" << (this->row) << "|" << (this->col) << ")" << std::endl;
 }
 
+/* Tile */
+
 House::Tile::Tile()
     : dirt_level(0), wall_on_north(false), wall_on_south(false), wall_on_east(false), wall_on_west(false) {}
 
@@ -178,4 +158,8 @@ void House::Tile::setEastWall(bool val) {
 
 void House::Tile::setWestWall(bool val) {
     wall_on_west = val;
+}
+
+void House::Tile::removeOneDirt() {
+    dirt_level = dirt_level > 0 ? (dirt_level - 1) : 0;
 }

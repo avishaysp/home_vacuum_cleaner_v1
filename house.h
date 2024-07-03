@@ -38,6 +38,8 @@ public:
         void setSouthWall(bool val);
         void setEastWall(bool val);
         void setWestWall(bool val);
+
+        void removeOneDirt();
     };
 
 
