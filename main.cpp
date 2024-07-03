@@ -2,7 +2,7 @@
 #include "io_handling.h"
 
 int main() {
-    FileReader fr = FileReader("INPUT_FORMAT.txt");
+    FileReader fr("INPUT_FORMAT.txt");
     FileReader::file_reader_output args = fr.readFile();
     std::cout << args.max_battery_steps << std::endl;
     std::cout << args.max_num_of_steps << std::endl;

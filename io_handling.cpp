@@ -13,19 +13,6 @@ StepHouse::StepHouse(std::__1::ifstream &file) {
     }
 }
 
-std::pair<size_t, size_t> StepHouse::getFirstTileIndecies() const {
-    if (isdigit(mat[0][0]) || mat[0][0] == '/') {
-        return {0, 0};
-
-    } else if (isdigit(mat[0][1]) || mat[0][1] == '/') {
-        return {0, 1};
-
-    } else if (isdigit(mat[1][0]) || mat[1][0] == '/') {
-        return {1, 0};
-    }
-    return {1, 1};
-}
-
 void StepHouse::print() const {
     for (const auto& row : mat) {
         for (char ch : row) {
@@ -87,90 +74,115 @@ std::pair<size_t, size_t> FileReader::getHouseDimensions(const std::string& file
     std::istringstream stream(content);
     std::string line;
     size_t rows = 0;
-    size_t maxCols = 0;
+    size_t cols = 0;
 
     while (std::getline(stream, line)) {
         if (!line.empty()) {
             rows++;
-            size_t cols = line.length();
-            if (cols > maxCols) {
-                maxCols = cols;
-            }
+            if (cols == 0) {
+            cols = line.size();
+        }
         }
     }
-
     file.close();
-    return {rows, maxCols};
+    return {(rows - 1) / 2, (cols - 1) / 2};
+}
+
+bool FileReader::isTransition(const StepHouse& step_house, size_t i1, size_t j1, size_t i2, size_t j2) const {
+    char x = step_house.mat[i1][j1];
+    char y = step_house.mat[i2][j2];
+    // std::cout << "isTransition. x " << x << ", y " << y << " is it? " << (isdigit(x) != isdigit(y)) << " size_t i1, " << i1 <<" size_t j1, " << j1 <<" size_t i2 " << i2 << " size_t j2 " << j2 << std::endl;
+    return (isdigit(x) != isdigit(y));
 }
 
 void FileReader::surroundHouseWithWalls(const StepHouse& step_house, House &house) const {
-    auto [first_step_i, first_step_j] = step_house.getFirstTileIndecies();
-    if (first_step_j == 0) {
-        for (size_t house_i = 0; house_i < house.getRowsCount(); house_i++) {
-            house.getTile(house_i, 0).setWestWall(true);
+    size_t num_step_rows = step_house.mat.size();
+    size_t num_step_cols = step_house.mat[0].size();
+    // for each row, from left to right
+    size_t house_i = 0;
+    for (size_t step_i = 1; step_i < num_step_rows; step_i += 2) {
+        size_t house_j = 0;
+        for (size_t step_j = 1; step_j < step_house.mat[step_i].size() - 2; step_j += 2) {
+            if (FileReader::isTransition(step_house, step_i, step_j, step_i, step_j + 2)) {
+                house.getTile(house_i, house_j).setEastWall(true);
+                house.getTile(house_i, house_j + 1).setWestWall(true);
+            }
+            house_j++;
         }
-    }
-    if (first_step_i == 0) {
-        for (size_t house_j = 0; house_j < house.getColsCount(); house_j++) {
-            house.getTile(0, house_j).setNorthWall(true);
-        }
+        house_i++;
     }
 
-    // TODO: Go line by line and row by row and add walls acording to '/'s
+    // for each col, from top to buttom
+    size_t house_j = 0;
+    for (size_t step_j = 1; step_j < num_step_cols; step_j += 2) {
+        size_t house_i = 0;
+        for (size_t step_i = 1; step_i < num_step_rows - 2; step_i += 2) {
+            if (FileReader::isTransition(step_house, step_i, step_j, step_i + 2, step_j)) {
+                house.getTile(house_i, house_j).setSouthWall(true);
+                house.getTile(house_i + 1, house_j).setNorthWall(true);
+            }
+            house_i++;
+        }
+        house_j++;
+    }
+
+    // take care of the tiles on the borders
+    // top and buttom rows:
+    house_j = 0;
+    for (size_t step_j = 1; step_j < num_step_cols; step_j += 2) {
+        if (isdigit(step_house.mat[0][step_j])) {
+            house.getTile(0, house_j).setNorthWall(true);
+        }
+        if (isdigit(step_house.mat[num_step_rows - 2][step_j])) {
+            house.getTile(house.getRowsCount() - 1, house_j).setSouthWall(true);
+        }
+        house_j++;
+    }
+
+    house_i = 0;
+    for (size_t step_i = 1; step_i < step_house.mat.size(); step_i += 2) {
+        std::cout << "step_i " << step_i << " house_i " << house_i << " isdigit " << step_house.mat[step_i][1] << std::endl;
+        if (isdigit(step_house.mat[step_i][1])) {
+            house.getTile(house_i, 0).setWestWall(true);
+        }
+        if (isdigit(step_house.mat[step_i][num_step_cols - 2])) {
+            house.getTile(house_i, house.getColsCount() - 1).setEastWall(true);
+        }
+        house_i++;
+    }
 }
 
 void FileReader::parseHouse(const StepHouse& step_house, House &house) const {
-    auto [first_step_i, first_step_j] = step_house.getFirstTileIndecies();
-
-    // read only dirt values
-
+    size_t num_step_rows = step_house.mat.size();
     size_t house_i = 0;
-    size_t house_j = 0;
-    for (size_t step_i = first_step_i; step_i < step_house.mat.size(); step_i += 2) {
-        for (size_t step_j = first_step_j; step_j < step_house.mat[step_i].size(); step_j += 2) {
+    for (size_t step_i = 1; step_i < num_step_rows; step_i += 2) {
+        size_t house_j = 0;
+        for (size_t step_j = 1; step_j < step_house.mat[step_i].size(); step_j += 2) {
 
             House::Tile& tile = house.getTile(house_i, house_j);
             char val = step_house.mat[step_i][step_j];
 
+            // Read and set dirt values
             if (isdigit(val)) {
-                tile.setDirt(val);
+                tile.setDirt(val - '0');
             }
-            house_j++;
-        }
-        house_i++;
-    }
 
-    // add walls from step_house
-    house_i = 0;
-    house_j = 0;
-    for (size_t step_i = first_step_i; step_i < step_house.mat.size(); step_i += 2) {
-        for (size_t step_j = first_step_j; step_j < step_house.mat[step_i].size(); step_j += 2) {
-
-            House::Tile& tile = house.getTile(house_i, house_j);
-
-            if (0 < step_i) {
-                char north = step_house.mat[step_i - 1][step_j];
-                if (north == '-') {
-                    tile.setNorthWall(true);
-                }
+            // Add walls
+            // North wall
+            if (step_i > 0 && step_house.mat[step_i - 1][step_j] == '-') {
+                tile.setNorthWall(true);
             }
-            if (step_i < step_house.rows - 1) {
-                char south = step_house.mat[step_i + 1][step_j];
-                if (south == '-') {
-                    tile.setSouthWall(true);
-                }
+            // South wall
+            if (step_i < num_step_rows - 1 && step_house.mat[step_i + 1][step_j] == '-') {
+                tile.setSouthWall(true);
             }
-            if (0 < step_j) {
-                char west = step_house.mat[step_i][step_j - 1];
-                if (west == '-') {
-                    tile.setWestWall(true);
-                }
+            // West wall
+            if (step_j > 0 && step_house.mat[step_i][step_j - 1] == '|') {
+                tile.setWestWall(true);
             }
-            if (step_j < step_house.mat[step_i].size() - 1) {
-                char north = step_house.mat[step_i - 1][step_j];
-                if (north == '-') {
-                    tile.setNorthWall(true);
-                }
+            // East wall
+            if (step_j < step_house.mat[step_i].size() - 1 && step_house.mat[step_i][step_j + 1] == '|') {
+                tile.setEastWall(true);
             }
 
             house_j++;
@@ -178,6 +190,7 @@ void FileReader::parseHouse(const StepHouse& step_house, House &house) const {
         house_i++;
     }
 }
+
 
 FileReader::FileReader(const std::string& file_path) : file_path(file_path) {}
 
@@ -226,37 +239,37 @@ void FileWriter::writeHouse(const House& house) {
     size_t rows = house.getRowsCount();
     size_t cols = house.getColsCount();
 
-    for (size_t row = 0; row < rows; ++row) {
-        FileWriter::print_top_wall(file, house, row, cols);
-        FileWriter::print_middle(file, house, row, cols);
+    for (size_t row = 0; row < rows; row++) {
+        FileWriter::printTopWall(file, house, row, cols);
+        FileWriter::printDirt(file, house, row, cols);
     }
 
     // Print the bottom wall segment of the last row
-    print_bottom_wall(file, house, rows - 1, cols);
+    printBottomWall(file, house, rows - 1, cols);
 
     file.close();
 }
 
-void FileWriter::print_top_wall(std::ofstream& file, const House& house, size_t row, size_t cols) const {
+void FileWriter::printTopWall(std::ofstream& file, const House& house, size_t row, size_t cols) const {
     file << "+";
-    for (size_t col = 0; col < cols; ++col) {
+    for (size_t col = 0; col < cols; col++) {
         file << (house.getTile(row, col).getNorthWall() ? "-+" : " +");
     }
-    file << "\n";
+    file << std::endl;
 }
 
-void FileWriter::print_middle(std::ofstream& file, const House& house, size_t row, size_t cols) const {
-    for (size_t col = 0; col < cols; ++col) {
+void FileWriter::printDirt(std::ofstream& file, const House& house, size_t row, size_t cols) const {
+    for (size_t col = 0; col < cols; col++) {
         const auto& tile = house.getTile(row, col);
         file << (tile.getWestWall() ? "|" : " ") << tile.getDirt();
     }
-    file << (house.getTile(row, cols - 1).getEastWall() ? "|\n" : " \n");
+    file << (house.getTile(row, cols - 1).getEastWall() ? "|" : " ") << std::endl;
 }
 
-void FileWriter::print_bottom_wall(std::ofstream& file, const House& house, size_t row, size_t cols) const {
+void FileWriter::printBottomWall(std::ofstream& file, const House& house, size_t row, size_t cols) const {
     file << "+";
-    for (size_t col = 0; col < cols; ++col) {
+    for (size_t col = 0; col < cols; col++) {
         file << (house.getTile(row, col).getSouthWall() ? "-+" : " +");
     }
-    file << "\n";
+    file << std::endl;
 }
