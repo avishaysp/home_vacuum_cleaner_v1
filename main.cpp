@@ -7,7 +7,8 @@ int main() {
     std::cout << args.max_battery_steps << std::endl;
     std::cout << args.max_num_of_steps << std::endl;
     args.docking_loc.print();
-    args.house_map.print();
     std::cout << "total dirt: " << args.house_map.calc_total_dirt() << std::endl;
+    FileWriter fw("output.txt");
+    fw.writeHouse(args.house_map);
     return 0;
 }

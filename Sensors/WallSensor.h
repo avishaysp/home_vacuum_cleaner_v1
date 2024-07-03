@@ -1,22 +1,16 @@
 #pragma once
 
 #include <vector>
+#include "utils/Direction.h"
+#include "house.h"
 
 class WallSensor {
+    const House& house;
+    const House::Location& curr_location;
+
 public:
-    enum class Direction {
-        North,
-        South,
-        East,
-        West
-    };
 
-    WallSensor(const std::vector<Direction>& newDirections); 
+    WallSensor(const House& house, const House::Location& curr_location);
 
-    std::vector<Direction> getDirections() const;
-    void setDirections(const std::vector<Direction>& newDirections);
-
-private:
-    std::vector<Direction> directions; 
-
+    std::vector<Direction> getPosibbleDirections() const;
 };

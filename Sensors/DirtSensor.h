@@ -4,12 +4,12 @@
 #include "house.h"
 
 class DirtSensor {
-    House& house;
-    House::Location& curr_location;
+    const House& house;
+    const House::Location& curr_location;
 
 
 public:
-    DirtSensor(House& house, House::Location& curr_location);
+    DirtSensor(const House& house, const House::Location& curr_location);
 
     size_t getDirtLevel() const;
 };

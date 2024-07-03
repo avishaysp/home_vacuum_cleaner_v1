@@ -3,7 +3,7 @@
 
 /* House */
 
-House::House(size_t rows, size_t cols) : mat(rows, std::vector<int>(cols, 0)), rows(rows), cols(cols) {
+House::House(size_t rows, size_t cols) : mat(rows, std::vector<House::Tile>(cols, House::Tile())), rows(rows), cols(cols) {
     std::cout << "Creating a house with " << rows << " rows and " << cols << " colums" << std::endl;
 }
 
@@ -21,51 +21,60 @@ const std::unordered_map<int, char> House::negs_to_passages = {
     {-4, '|'},
 };
 
-void House::print() const {
-    for (const auto& row : mat) {
-        for (const auto& elem : row) {
-            if (elem >= 0) {
-                std::cout << elem;
-            } else {
-                std::cout << negs_to_passages.find(elem)->second;
-            }
-        }
-        std::cout << std::endl;
-    }
-}
-int House::getVal(House::Location loc) const {
-   return House::getVal(loc.getRow(), loc.getCol());
+
+size_t House::getDirt(House::Location loc) const {
+   return House::getDirt(loc.getRow(), loc.getCol());
 }
 
-int House::getVal(size_t row, size_t col) const {
+size_t House::getDirt(size_t row, size_t col) const {
     if (row < rows && col < cols) {
-        return mat[row][col];
+        return mat[row][col].getDirt();
     }
     return -99;
 }
 
-void House::setVal(House::Location loc, int value) {
-    return House::setVal(loc.getRow(), loc.getCol(), value);
+void House::setDirt(House::Location loc, size_t value) {
+    return House::setDirt(loc.getRow(), loc.getCol(), value);
 }
 
-void House::setVal(size_t row, size_t col, int value) {
+void House::setDirt(size_t row, size_t col, size_t value) {
     if (row < rows && col < cols) {
-        mat[row][col] = value;
+        mat[row][col].setDirt(value);
     }
+}
+
+House::Tile& House::getTile(House::Location loc) {
+    size_t row = loc.getRow();
+    size_t col = loc.getCol();
+    return getTile(row, col);
+}
+
+House::Tile& House::getTile(size_t row, size_t col) {
+    return mat[row][col];
+}
+
+const House::Tile& House::getTile(House::Location loc) const {
+    size_t row = loc.getRow();
+    size_t col = loc.getCol();
+    return getTile(row, col);
+}
+
+const House::Tile& House::getTile(size_t row, size_t col) const {
+    return mat[row][col];
 }
 
 void House::removeOneDirt(House::Location loc) {
     size_t row = loc.getRow();
     size_t col = loc.getCol();
-    int val = mat[row][col];
-    mat[row][col] = val == 0 ? 0 : val - 1;
+    size_t val = mat[row][col].getDirt();
+    mat[row][col].setDirt(val == 0 ? 0 : val - 1);
 }
 
-int House::getRowsCount() {
+size_t House::getRowsCount() const {
     return rows;
 }
 
-int House::getColsCount() {
+size_t House::getColsCount() const {
     return cols;
 }
 
@@ -73,8 +82,8 @@ size_t House::calc_total_dirt() const {
     size_t sum = 0;
     for (size_t i = 0; i < rows; i++) {
         for (size_t j = 0; j < cols; j++) {
-            if (mat[i][j] > 0) {
-                sum += mat[i][j];
+            if (mat[i][j].getDirt() > 0) {
+                sum += mat[i][j].getDirt();
             }
         }
     }
@@ -121,4 +130,52 @@ bool House::Location::operator!=(const House::Location& other) const {
 
 void House::Location::print() const {
     std::cout << "(" << (this->row) << "|" << (this->col) << ")" << std::endl;
+}
+
+House::Tile::Tile()
+    : dirt_level(0), wall_on_north(false), wall_on_south(false), wall_on_east(false), wall_on_west(false) {}
+
+House::Tile::Tile(size_t dirt_level, bool wall_on_north, bool wall_on_south, bool wall_on_east, bool wall_on_west)
+    : dirt_level(dirt_level), wall_on_north(wall_on_north), wall_on_south(wall_on_south), wall_on_east(wall_on_east), wall_on_west(wall_on_west) {}
+
+// Getter implementations
+size_t House::Tile::getDirt() const {
+    return dirt_level;
+}
+
+bool House::Tile::getNorthWall() const {
+    return wall_on_north;
+}
+
+bool House::Tile::getSouthWall() const {
+    return wall_on_south;
+}
+
+bool House::Tile::getEastWall() const {
+    return wall_on_east;
+}
+
+bool House::Tile::getWestWall() const {
+    return wall_on_west;
+}
+
+// Setter implementations
+void House::Tile::setDirt(size_t dirt) {
+    dirt_level = dirt;
+}
+
+void House::Tile::setNorthWall(bool val) {
+    wall_on_north = val;
+}
+
+void House::Tile::setSouthWall(bool val) {
+    wall_on_south = val;
+}
+
+void House::Tile::setEastWall(bool val) {
+    wall_on_east = val;
+}
+
+void House::Tile::setWestWall(bool val) {
+    wall_on_west = val;
 }

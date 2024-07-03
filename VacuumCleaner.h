@@ -1,20 +1,31 @@
 #pragma once
-#include "House.h"
-#include "Path.h"
+#include <string>
+#include <iostream>
+#include "Algorithm.h"
+#include "house.h"
+#include "Sensors/WallSensor.h"
+#include "Sensors/DirtSensor.h"
+#include "Sensors/BatterySensor.h"
 
 
 class VacuumCleaner {
-    int batterySize;
-    const int maxSteps;
-    House house;
-    House::Location currentLocation;
-    Path historyPath;
-    WallSensor wallSensor;
-    BatterySensor BatterySensor;
-    DirtSensor DirtSensor;
+    const size_t battery_size;
+    size_t current_battery;
+    const size_t max_steps;
+    House& house;
+    House::Location docking_loc;
+    House::Location current_location;
+    Path history_path;
+    const WallSensor wall_sensor;
+    const BatterySensor battery_sensor;
+    const DirtSensor dirt_sensor;
+    size_t cuurent_total_dirt;
+
 
     public:
-        VacuumCleaner(const int maxSteps, int batterySize, House& house);
+        VacuumCleaner(size_t max_steps, size_t battery_size, House& house, House::Location docking_loc);
 
         void cleanHouse();
+
+
 };

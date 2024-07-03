@@ -1,17 +1,16 @@
-#pragma once
-#include <string>
-#include <iostream>
 #include "VacuumCleaner.h"
-#include "Algorithm.h"
-#include "Sensors/WallSensor.h"
-#include "Sensors/DirtSensor.h"
-#include "Sensors/BatterySensor.h"
 
-/*VacuumCleaner*/
-VacuumCleaner::VacuumCleaner(int maxSteps, int batterySize, House& house) 
-    : maxSteps(maxSteps), batterySize(batterySize), house(house), currentLocation(house.docStation), historyPath() {
-        this->Wal
-    }
+
+VacuumCleaner::VacuumCleaner(size_t max_steps, size_t battery_size, House& house, House::Location docking_loc)
+    : max_steps(max_steps),
+      battery_size(battery_size),
+      house(house),
+      docking_loc(docking_loc),
+      current_location(docking_loc),
+      history_path(docking_loc) {
+        
+      }
+
 
 void cleanHouse() {
     WallSensor wallSensor;
@@ -21,13 +20,13 @@ void cleanHouse() {
     for (int i = 0; i < 10; ++i) {
         algo->nextStep()
         Direction = algo.nextStep();
-    
+
     }
 
-    
 
 
- 
+
+
 }
-        
-    
+
+

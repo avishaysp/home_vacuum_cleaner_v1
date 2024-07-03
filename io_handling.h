@@ -9,17 +9,31 @@
 #include <sstream>
 #include "house.h"
 
+class StepHouse {
+
+public:
+
+    std::vector<std::vector<char>> mat;
+    size_t rows;
+    size_t max_col;
+
+    StepHouse(std::__1::ifstream &file);
+    std::pair<size_t, size_t> getFirstTileIndecies() const;
+    void print() const;
+};
+
 class FileReader {
-    std::string filePath;
+    std::string file_path;
+
 
     std::vector<std::string> split(const std::string &str, const char delimiter) const;
-    size_t str_to_size_t(const std::string &str) const;
-    House::Location parse_location(const std::string &str) const;
-    std::pair<size_t, size_t> get_house_dimensions(const std::string& filename) const;
-    void surround_house_w_walls(House& house) const;
-    void read_house(std::__1::ifstream &file, House &house) const;
+    size_t strToSize_t(const std::string &str) const;
+    House::Location parseLocation(const std::string& str) const;
+    static std::pair<size_t, size_t> getHouseDimensions(const std::string& filename);
+    void surroundHouseWithWalls(const StepHouse& step_house, House& house) const;
+    void parseHouse(const StepHouse& step_house, House& house) const;
 public:
-    FileReader(const std::string& filePath);
+    FileReader(const std::string& file_path);
 
     struct file_reader_output {
         size_t max_battery_steps;
@@ -29,4 +43,17 @@ public:
     };
 
     file_reader_output readFile() const;
+};
+
+class FileWriter {
+    std::string file_path;
+    void print_top_wall(std::ofstream& file, const House& house, size_t row, size_t cols) const;
+    void print_middle(std::ofstream& file, const House& house, size_t row, size_t cols) const;
+    void print_bottom_wall(std::ofstream& file, const House& house, size_t row, size_t cols) const;
+
+public:
+    FileWriter(const std::string& file_path);
+
+    void writeHouse(const House& house);
+
 };

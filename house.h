@@ -4,19 +4,42 @@
 #include <vector>
 #include <iostream>
 #include <unordered_map>
+#include "utils/Direction.h"
 
 class House {
-    std::vector<std::vector<int>> mat;
-    size_t rows;
-    size_t cols;
-
-
 
 public:
     House(size_t rows, size_t cols);
 
     static const std::unordered_map<char, int> passages_to_negs;
     static const std::unordered_map<int, char> negs_to_passages;
+
+    class Tile {
+        size_t dirt_level;
+        bool wall_on_north;
+        bool wall_on_south;
+        bool wall_on_east;
+        bool wall_on_west;
+
+    public:
+        Tile();
+        Tile(size_t dirt_level, bool wall_on_north, bool wall_on_south, bool wall_on_east, bool wall_on_west);
+
+        // Getters
+        size_t getDirt() const;
+        bool getNorthWall() const;
+        bool getSouthWall() const;
+        bool getEastWall() const;
+        bool getWestWall() const;
+
+        // Setters
+        void setDirt(size_t dirt);
+        void setNorthWall(bool val);
+        void setSouthWall(bool val);
+        void setEastWall(bool val);
+        void setWestWall(bool val);
+    };
+
 
     class Location {
         size_t row;
@@ -42,17 +65,26 @@ public:
         void print() const;
     };
 
-    void print() const;
 
-    int getVal(Location loc) const;
-    int getVal(size_t row, size_t col) const;
-    void setVal(Location loc, int value);
-    void setVal(size_t row, size_t col, int value);
+    size_t getDirt(Location loc) const;
+    size_t getDirt(size_t row, size_t col) const;
+    void setDirt(Location loc, size_t value);
+    void setDirt(size_t row, size_t col, size_t value);
+
+    Tile& getTile(Location loc);
+    Tile& getTile(size_t row, size_t col);
+    const Tile& getTile(Location loc) const;
+    const Tile& getTile(size_t row, size_t col) const;
 
     void removeOneDirt(Location loc);
 
-    int getRowsCount();
-    int getColsCount();
+    size_t getRowsCount() const;
+    size_t getColsCount() const;
 
     size_t calc_total_dirt() const;
+
+private:
+    std::vector<std::vector<House::Tile>> mat;
+    size_t rows;
+    size_t cols;
 };
