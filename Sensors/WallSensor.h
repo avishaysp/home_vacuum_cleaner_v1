@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "utils/Direction.h"
+#include "Direction.h"
 #include "house.h"
 
 class WallSensor {

@@ -4,29 +4,59 @@
 VacuumCleaner::VacuumCleaner(size_t max_steps, size_t battery_size, House& house, House::Location docking_loc)
     : max_steps(max_steps),
       battery_size(battery_size),
+      current_battery(battery_size),
       house(house),
       docking_loc(docking_loc),
       current_location(docking_loc),
-      history_path(docking_loc) {
+      history_path(docking_loc),
+      battery_sensor(current_battery),
+      wall_sensor(house, current_location),  
+      dirt_sensor(house, current_location),
+      current_total_dirt(house.calc_total_dirt()) {}
+
+
+void VacuumCleaner::cleanHouse() {
+    Algorithm algo(wallSensor, dirtSensor, batterySensor, battery_size);
+    for (int i = 0; i < max_steps; ++i) {
+        Direction step = algo.nextStep();
+
+        //Stay in docking station
+        if ((step.getValue() == Direction::Value::Stay) && (current_location == docking_loc)) {
+            
+        } 
+
+        //Stay and clean
+        else if (step.getValue() == Direction::Value::Stay) {
+            set_total_dirt();
+            update_house();
+            current_battery -= 1;
+        } 
+
+        //Move to another location
+        else {
+            move(step);
+            current_battery -= 1;
+        }
+
+        add_to_history();
         
-      }
-
-
-void cleanHouse() {
-    WallSensor wallSensor;
-    DirtSensor dirtSensor;
-    BatterySensor batterySensor;
-    Algorithm* algo = new Algorithm(wallSensor, dirtSensor, batterySensor);
-    for (int i = 0; i < 10; ++i) {
-        algo->nextStep()
-        Direction = algo.nextStep();
 
     }
-
-
-
-
-
 }
 
+void VacuumCleaner::move(const Direction direction) {
+    current_location.setBoth(current_location.getRow() + direction.getX(), current_location.getCol() + direction.getY());
+}
+
+void VacuumCleaner::add_to_history() {
+    history_path.addEntry(current_location);
+}
+
+void VacuumCleaner::set_total_dirt() {
+    current_total_dirt -= 1;
+}
+
+void VacuumCleaner::update_house() {
+    house.getTile(current_location).removeOneDirt();
+}
 

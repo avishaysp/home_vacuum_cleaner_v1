@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <unordered_map>
-#include "utils/Direction.h"
+#include "Direction.h"
 
 class House {
 
