@@ -13,7 +13,7 @@ class VacuumCleaner {
     size_t current_battery;
     const size_t max_steps;
     House& house;
-    House::Location docking_loc;
+    const House::Location docking_loc;
     House::Location current_location;
     Path history_path;
     const WallSensor wall_sensor;
@@ -21,7 +21,7 @@ class VacuumCleaner {
     const DirtSensor dirt_sensor;
     size_t current_total_dirt;
 
-    void move(Direction direction);
+    void move(const Direction direction);
     void add_to_history();
     void set_total_dirt();
     void update_house();
@@ -31,6 +31,10 @@ class VacuumCleaner {
         VacuumCleaner(size_t max_steps, size_t battery_size, House& house, House::Location docking_loc);
 
         void cleanHouse();
+
+        const House& getHouse() const;
+
+        const Path& getPath() const;
 
 
 

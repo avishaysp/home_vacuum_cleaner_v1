@@ -12,6 +12,7 @@ int Direction::getX() const {
         case Value::South: return -1;
         case Value::East: return 0;
         case Value::West: return 0;
+        case Value::Stay: return 0;
     }
     return 0; 
 }
@@ -22,6 +23,7 @@ int Direction::getY() const {
         case Value::South: return 0;
         case Value::East: return 1;
         case Value::West: return -1;
+        case Value::Stay: return 0;
     }
     return 0; 
 }

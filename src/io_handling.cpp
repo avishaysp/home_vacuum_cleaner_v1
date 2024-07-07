@@ -1,7 +1,7 @@
 // io_handling.cpp
 #include "io_handling.h"
 
-StepHouse::StepHouse(std::__1::ifstream &file) {
+FileReader::StepHouse::StepHouse(std::__1::ifstream &file) {
     std::string line;
     rows = 0;
     max_col = 0;
@@ -13,7 +13,7 @@ StepHouse::StepHouse(std::__1::ifstream &file) {
     }
 }
 
-std::pair<size_t, size_t> StepHouse::getFirstTileIndecies() const {
+std::pair<size_t, size_t> FileReader::StepHouse::getFirstTileIndecies() const {
     if (isdigit(mat[0][0]) || mat[0][0] == '/') {
         return {0, 0};
 
@@ -26,7 +26,7 @@ std::pair<size_t, size_t> StepHouse::getFirstTileIndecies() const {
     return {1, 1};
 }
 
-void StepHouse::print() const {
+void FileReader::StepHouse::print() const {
     for (const auto& row : mat) {
         for (char ch : row) {
             std::cout << ch;
@@ -244,7 +244,7 @@ void FileWriter::writePath(const Path& path) {
     }
 
     for (size_t i = 0; i < path.getLength() - 1; i++) {
-        file << '<' << path.getLocation(i).getRow() << ',' << path.getLocation(i).getCol() << '> --> ';
+        file << '<' << path.getLocation(i).getRow() << ',' << path.getLocation(i).getCol() << "> -->" ;
     }
     file << '<' << path.getLocation(path.getLength() - 1).getRow() << ',' << path.getLocation(path.getLength() - 1).getCol() << '>';
 

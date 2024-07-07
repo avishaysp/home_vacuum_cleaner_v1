@@ -2,22 +2,22 @@
 
 
 VacuumCleaner::VacuumCleaner(size_t max_steps, size_t battery_size, House& house, House::Location docking_loc)
-    : max_steps(max_steps),
-      battery_size(battery_size),
+    : battery_size(battery_size),
       current_battery(battery_size),
+      max_steps(max_steps),
       house(house),
       docking_loc(docking_loc),
       current_location(docking_loc),
       history_path(docking_loc),
-      battery_sensor(current_battery),
       wall_sensor(house, current_location),  
+      battery_sensor(current_battery),
       dirt_sensor(house, current_location),
       current_total_dirt(house.calc_total_dirt()) {}
 
 
 void VacuumCleaner::cleanHouse() {
     Algorithm algo(wall_sensor, battery_sensor, dirt_sensor, battery_size, current_location);
-    for (int i = 0; i < max_steps; ++i) {
+    for (size_t i = 0; i < max_steps; ++i) {
         Direction step = algo.nextStep();
 
         //Stay in docking station
@@ -44,6 +44,15 @@ void VacuumCleaner::cleanHouse() {
 
     }
 }
+
+const House& VacuumCleaner::getHouse() const {
+    return house;
+}
+
+const Path& VacuumCleaner::getPath() const {
+    return history_path;
+}
+
 
 void VacuumCleaner::move(const Direction direction) {
     current_location.setBoth(current_location.getRow() + direction.getX(), current_location.getCol() + direction.getY());

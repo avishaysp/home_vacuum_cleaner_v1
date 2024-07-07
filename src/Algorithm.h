@@ -7,15 +7,14 @@
 #include "Path.h"
 
 class Algorithm {
-    WallSensor wallSensor;
-    BatterySensor batterySensor;
-    DirtSensor dirtSensor;
-    size_t battery_size;
+    const WallSensor wallSensor;
+    const BatterySensor batterySensor;
+    const DirtSensor dirtSensor;
+    const size_t battery_size;
     Path current_path;
-    bool isDocStation;
 
     std::random_device rd;
-    std::mt19937 gen;
+    mutable std::mt19937 gen;
 
     bool isDockinStation() const;
 
@@ -25,7 +24,7 @@ class Algorithm {
 
     Direction chooseRandomDirection(const std::vector<Direction>& vec) const;
 
-    Direction locationsDiffToDirection(House::Location curr, House::Location next) const;
+    Direction locationsDiffToDirection(const House::Location curr, const House::Location next) const;
 
     public:
         Algorithm(const WallSensor& wallSensor, const BatterySensor& batterySensor, const DirtSensor& dirtSensor, const size_t battery_size,  const House::Location starting_location);

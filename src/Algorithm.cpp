@@ -7,7 +7,8 @@ Algorithm::Algorithm(const WallSensor& wallSensor, const BatterySensor& batteryS
       dirtSensor(dirtSensor),
       battery_size(battery_size),
       current_path(starting_location),
-      gen(rd()) {}
+      gen(rd())
+     {}
 
 Direction Algorithm::nextStep() {
     Direction decition = decide();
@@ -46,7 +47,7 @@ Direction Algorithm::decide() const {
     return possible_direction;
 }
 
-void Algorithm::updatePath(Direction decition) {
+void Algorithm::updatePath(const Direction decition) {
     if (decition.getValue() != Direction::Value::Stay) {
         House::Location current_location = current_path.topStep();
         current_path.addEntry(House::Location(current_location.getRow() + decition.getX(), current_location.getCol() + decition.getY()));
@@ -55,12 +56,12 @@ void Algorithm::updatePath(Direction decition) {
 }
 
 Direction Algorithm::chooseRandomDirection(const std::vector<Direction>& vec) const {
-    std::uniform_int_distribution<> dis(0, vec.size() - 1);
+    std::uniform_int_distribution<> dis(0, static_cast<int>(vec.size()) - 1);
     size_t randoIndex = dis(gen);
     return vec[randoIndex];
 }
 
-Direction Algorithm::locationsDiffToDirection(House::Location curr, House::Location next) const {
+Direction Algorithm::locationsDiffToDirection(const House::Location curr, const House::Location next) const {
 
     if (curr.getRow() == next.getRow()) {
         return curr.getCol() > next.getCol() ? Direction(Direction::Value::West) : Direction(Direction::Value::East);

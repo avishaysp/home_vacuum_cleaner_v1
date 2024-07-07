@@ -2,17 +2,12 @@
 
 #include "Path.h"
 
-Path::Path(House::Location start_loc) {
+Path::Path(const House::Location start_loc) {
     vec.push_back(start_loc);
 }
 
-void Path::print() {
-    for (const auto& loc : vec) {
-        loc.print();
-    }
-}
 
-void Path::addEntry(House::Location loc) {
+void Path::addEntry(const House::Location loc) {
     vec.push_back(loc);
 }
 

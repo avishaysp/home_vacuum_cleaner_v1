@@ -7,18 +7,17 @@
 class Path {
 public:
 
-    Path(House::Location start_loc);
+    Path(const House::Location start_loc);
 
-    void print();
-
-    void addEntry(House::Location loc);
-    House::Location popStep();
+    void addEntry(const House::Location loc);
 
     size_t getLength() const;
 
-    void cutPath(const size_t idx);
+    House::Location popStep();
 
     House::Location topStep() const;
+
+    void cutPath(const size_t idx);
 
     House::Location getPrev() const;
 

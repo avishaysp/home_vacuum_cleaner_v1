@@ -10,22 +10,21 @@
 #include "house.h"
 #include "Path.h"
 
-class StepHouse {
-
-public:
-
-    std::vector<std::vector<char>> mat;
-    size_t rows;
-    size_t max_col;
-
-    StepHouse(std::__1::ifstream &file);
-    std::pair<size_t, size_t> getFirstTileIndecies() const;
-    void print() const;
-};
 
 class FileReader {
     std::string file_path;
 
+    class StepHouse {
+
+    public:
+        std::vector<std::vector<char>> mat;
+        size_t rows;
+        size_t max_col;
+
+        StepHouse(std::__1::ifstream &file);
+        std::pair<size_t, size_t> getFirstTileIndecies() const;
+        void print() const;
+    };
 
     std::vector<std::string> split(const std::string &str, const char delimiter) const;
     size_t strToSize_t(const std::string &str) const;
@@ -33,6 +32,7 @@ class FileReader {
     static std::pair<size_t, size_t> getHouseDimensions(const std::string& filename);
     void surroundHouseWithWalls(const StepHouse& step_house, House& house) const;
     void parseHouse(const StepHouse& step_house, House& house) const;
+
 public:
     FileReader(const std::string& file_path);
 
