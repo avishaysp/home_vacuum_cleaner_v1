@@ -12,11 +12,15 @@ Algorithm::Algorithm(const WallSensor& wallSensor, const BatterySensor& batteryS
 
 Direction Algorithm::nextStep() {
     Direction decition = decide();
+    if (!isDecitionPossible(decition)) {
+        std::cerr << " Made an impossible decition. Exiting" << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
     updatePath(decition);
     return decition;
 }
 
-bool Algorithm::isDockinStation() const{
+bool Algorithm::isDockinStation() const {
     return (current_path.getLocation(0) == current_path.topStep());
 }
 
@@ -75,4 +79,23 @@ Direction Algorithm::locationsDiffToDirection(const House::Location curr, const 
     }
 
     return curr.getRow() > next.getRow() ? Direction(Direction::Value::North) : Direction(Direction::Value::South);
+}
+
+bool Algorithm::isDecitionPossible(Direction decition) const {
+    auto curr_loc = current_path.topStep();
+    if (curr_loc.getCol() == 0 && decition.getValue() == Direction::Value::East) {
+        return false;
+    }
+    if (curr_loc.getRow() == 0 && decition.getValue() == Direction::Value::North) {
+        return false;
+    }
+    auto pos_dir = wallSensor.getPosibbleDirections();
+    bool result = false;
+    for (auto elem : pos_dir) {
+        if (decition.getValue() == elem.getValue()) {
+            result = true;
+            break;
+        }
+    }
+    return result;
 }
