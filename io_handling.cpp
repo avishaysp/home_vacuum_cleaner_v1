@@ -237,6 +237,13 @@ void FileWriter::writeHouse(const House& house) {
     file.close();
 }
 
+void FileWriter::writePath(const Path& path) {
+    std::ofstream file(file_path);
+    if (!file.is_open()) {
+        throw std::runtime_error("Could not open file for writing");
+    }
+}
+
 void FileWriter::print_top_wall(std::ofstream& file, const House& house, size_t row, size_t cols) const {
     file << "+";
     for (size_t col = 0; col < cols; ++col) {
@@ -260,3 +267,5 @@ void FileWriter::print_bottom_wall(std::ofstream& file, const House& house, size
     }
     file << "\n";
 }
+
+

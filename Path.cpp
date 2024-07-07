@@ -16,6 +16,10 @@ void Path::addEntry(House::Location loc) {
     vec.push_back(loc);
 }
 
+size_t Path::getLength() const{
+    return vec.size();
+}
+
 House::Location Path::popStep() {
     if (!vec.empty()) {
         House::Location last = vec.back();
@@ -25,3 +29,24 @@ House::Location Path::popStep() {
     std::cerr << "Popped the first elem in the Path. Big No No." << std::endl;
     std::exit(EXIT_FAILURE);
 }
+
+House::Location Path::topStep() const {
+    if (!vec.empty()) {
+        return vec.back();
+    }
+    std::cerr << "Popped the first elem in the Path. Big No No." << std::endl;
+    std::exit(EXIT_FAILURE);
+}
+
+void Path::cutPath(const size_t idx){
+    vec = std::vector<House::Location>(vec.begin(), vec.begin() + idx);
+}
+
+House::Location Path::getPrev() const {
+    return vec.end()[-2];
+}
+
+
+
+
+

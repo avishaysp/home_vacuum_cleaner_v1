@@ -1,6 +1,6 @@
 // BatterySensor.h
-
 #pragma once
+
 #include <vector> // for size_t
 
 class BatterySensor {

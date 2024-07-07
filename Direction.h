@@ -1,5 +1,5 @@
-#ifndef DIRECTION_H
-#define DIRECTION_H
+#pragma once
+
 #include <string>
 
 
@@ -26,4 +26,3 @@ private:
     Value direction;
 };
 
-#endif // DIRECTION_H

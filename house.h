@@ -78,8 +78,6 @@ public:
     const Tile& getTile(Location loc) const;
     const Tile& getTile(size_t row, size_t col) const;
 
-    void removeOneDirt(Location loc);
-
     size_t getRowsCount() const;
     size_t getColsCount() const;
 

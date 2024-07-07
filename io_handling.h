@@ -8,6 +8,7 @@
 #include <vector>
 #include <sstream>
 #include "house.h"
+#include "Path.h"
 
 class StepHouse {
 
@@ -55,5 +56,7 @@ public:
     FileWriter(const std::string& file_path);
 
     void writeHouse(const House& house);
+
+    void writePath(const Path& path);
 
 };

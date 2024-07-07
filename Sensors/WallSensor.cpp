@@ -5,10 +5,30 @@ WallSensor::WallSensor(const House& house, const House::Location& curr_location)
 std::vector<Direction> WallSensor::getPosibbleDirections() const {
 
     std::vector<Direction> directions;
-    if (house.getDirt(curr_location.getRow(), curr_location.getRow()))
+    if (house.getDirt(curr_location.getRow(), curr_location.getRow()));
 }
 
 
-bool WallSensor::canMove(House::Location& curr_location, Direction direction) {
-    return
+std::vector<Direction> WallSensor::getPosibbleDirections() const {
+    auto& tile = house.getTile(curr_location);
+    std::vector<Direction> vec = std::vector<Direction>();
+    if (!tile.getNorthWall()) {
+        vec.push_back(Direction(Direction::Value::North));
+    }
+
+    if (!tile.getSouthWall()) {
+        vec.push_back(Direction(Direction::Value::South));
+    }
+
+    if (!tile.getEastWall()) {
+        vec.push_back(Direction(Direction::Value::East));
+    }
+
+    if (!tile.getWestWall()) {
+        vec.push_back(Direction(Direction::Value::West));
+    }
+
+    return vec;
+
+    
 }

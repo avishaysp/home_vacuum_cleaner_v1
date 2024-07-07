@@ -16,13 +16,14 @@ VacuumCleaner::VacuumCleaner(size_t max_steps, size_t battery_size, House& house
 
 
 void VacuumCleaner::cleanHouse() {
-    Algorithm algo(wallSensor, dirtSensor, batterySensor, battery_size);
+    Algorithm algo(wall_sensor, battery_sensor, dirt_sensor, battery_size, current_location);
     for (int i = 0; i < max_steps; ++i) {
         Direction step = algo.nextStep();
 
         //Stay in docking station
         if ((step.getValue() == Direction::Value::Stay) && (current_location == docking_loc)) {
-            
+            size_t updated_battery = current_battery + battery_size / 20;
+            current_battery = (updated_battery > battery_size) ? battery_size : updated_battery;
         } 
 
         //Stay and clean
