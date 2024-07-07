@@ -46,6 +46,10 @@ House::Location Path::getPrev() const {
     return vec.end()[-2];
 }
 
+House::Location Path::getLocation(const int idx) const {
+    return vec[idx];
+}
+
 
 
 

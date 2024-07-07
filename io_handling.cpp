@@ -218,7 +218,7 @@ FileReader::file_reader_output FileReader::readFile() const {
 FileWriter::FileWriter(const std::string& file_path) : file_path(file_path) {}
 
 void FileWriter::writeHouse(const House& house) {
-    std::ofstream file(file_path);
+    std::ofstream file(file_path, std::ios_base::app);
     if (!file.is_open()) {
         throw std::runtime_error("Could not open file for writing");
     }
@@ -238,10 +238,19 @@ void FileWriter::writeHouse(const House& house) {
 }
 
 void FileWriter::writePath(const Path& path) {
-    std::ofstream file(file_path);
+    std::ofstream file(file_path, std::ios_base::app);
     if (!file.is_open()) {
         throw std::runtime_error("Could not open file for writing");
     }
+
+    for (size_t i = 0; i < path.getLength() - 1; i++) {
+        file << '<' << path.getLocation(i).getRow() << ',' << path.getLocation(i).getCol() << '> --> ';
+    }
+    file << '<' << path.getLocation(path.getLength() - 1).getRow() << ',' << path.getLocation(path.getLength() - 1).getCol() << '>';
+
+    file << std::endl;
+
+    file.close();
 }
 
 void FileWriter::print_top_wall(std::ofstream& file, const House& house, size_t row, size_t cols) const {
@@ -249,7 +258,7 @@ void FileWriter::print_top_wall(std::ofstream& file, const House& house, size_t 
     for (size_t col = 0; col < cols; ++col) {
         file << (house.getTile(row, col).getNorthWall() ? "-+" : " +");
     }
-    file << "\n";
+    file << std::endl;
 }
 
 void FileWriter::print_middle(std::ofstream& file, const House& house, size_t row, size_t cols) const {
@@ -257,7 +266,7 @@ void FileWriter::print_middle(std::ofstream& file, const House& house, size_t ro
         const auto& tile = house.getTile(row, col);
         file << (tile.getWestWall() ? "|" : " ") << tile.getDirt();
     }
-    file << (house.getTile(row, cols - 1).getEastWall() ? "|\n" : " \n");
+    file << (house.getTile(row, cols - 1).getEastWall() ? "|" : " ") << std::endl;
 }
 
 void FileWriter::print_bottom_wall(std::ofstream& file, const House& house, size_t row, size_t cols) const {
@@ -265,7 +274,7 @@ void FileWriter::print_bottom_wall(std::ofstream& file, const House& house, size
     for (size_t col = 0; col < cols; ++col) {
         file << (house.getTile(row, col).getSouthWall() ? "-+" : " +");
     }
-    file << "\n";
+    file << std::endl;
 }
 
 

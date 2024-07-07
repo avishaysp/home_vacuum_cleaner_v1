@@ -22,7 +22,10 @@ public:
 
     House::Location getPrev() const;
 
+    House::Location getLocation(const int idx) const;
+
 private:
+
     std::vector<House::Location> vec;
 
 };
