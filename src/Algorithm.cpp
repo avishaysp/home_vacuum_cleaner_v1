@@ -23,19 +23,13 @@ bool Algorithm::isDockinStation() const{
 Direction Algorithm::decide() const {
     size_t battery = batterySensor.getBattery();
     std::vector<Direction> possible_directions = wallSensor.getPosibbleDirections();
-    for (const auto& direction : possible_directions) {
-        std::cout << direction.toString() << std::endl;
-    }
-    std::cout << "Dirt " << dirtSensor.getDirtLevel() << " for loc " << current_path.topStep().toString() << std::endl;
     Direction possible_direction = possible_directions.size() ? chooseRandomDirection(possible_directions) : Direction(Direction::Value::Stay);
 
     if (isDockinStation() && battery < battery_size) {
-        std::cout << "decide to Stay because charging" << std::endl;
         return Direction(Direction::Value::Stay);
     }
 
     if (isDockinStation()) {
-        std::cout << "decide " << possible_direction.toString() << " in docking station " << std::endl;
         return possible_direction;
     }
 
@@ -44,25 +38,20 @@ Direction Algorithm::decide() const {
         House::Location current_location = current_path.topStep();
         House::Location prev_location = current_path.getPrev();
         possible_direction = locationsDiffToDirection(current_location, prev_location);
-        std::cout << "decide " << possible_direction.toString() << " to return to docking station " << std::endl;
         return possible_direction;
     }
 
      if (dirtSensor.getDirtLevel()) {
-        std::cout << "decide to Stay because cleaning" << std::endl;
         return Direction(Direction::Value::Stay);
     }
 
-    std::cout << "decide " << possible_direction.toString() << " to move " << std::endl;
     return possible_direction;
 }
 
 void Algorithm::updatePath(const Direction decition) {
-    current_path.print();
     if (decition.getValue() != Direction::Value::Stay) {
         House::Location prev_location = current_path.topStep();
         House::Location current_location = House::Location(prev_location.getRow() + decition.getX(), prev_location.getCol() + decition.getY());
-        std::cout << "prev_location: " << prev_location.toString() << ", current_location: " << current_location.toString() << std::endl;
         int idx = current_path.getIndexOfLocation(current_location);
         if (idx != -1) {
             current_path.cutPath(idx);

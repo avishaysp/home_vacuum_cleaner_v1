@@ -91,7 +91,6 @@ std::pair<size_t, size_t> FileReader::getHouseDimensions(const std::string& file
 bool FileReader::isTransition(const StepHouse& step_house, size_t i1, size_t j1, size_t i2, size_t j2) const {
     char x = step_house.mat[i1][j1];
     char y = step_house.mat[i2][j2];
-    // std::cout << "isTransition. x " << x << ", y " << y << " is it? " << (isdigit(x) != isdigit(y)) << " size_t i1, " << i1 <<" size_t j1, " << j1 <<" size_t i2 " << i2 << " size_t j2 " << j2 << std::endl;
     return (isdigit(x) != isdigit(y));
 }
 
@@ -141,7 +140,6 @@ void FileReader::surroundHouseWithWalls(const StepHouse& step_house, House &hous
 
     house_i = 0;
     for (size_t step_i = 1; step_i < step_house.mat.size(); step_i += 2) {
-        std::cout << "step_i " << step_i << " house_i " << house_i << " isdigit " << step_house.mat[step_i][1] << std::endl;
         if (isdigit(step_house.mat[step_i][1])) {
             house.getTile(house_i, 0).setWestWall(true);
         }

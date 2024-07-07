@@ -4,9 +4,7 @@
 
 /* House */
 
-House::House(size_t rows, size_t cols) : mat(rows, std::vector<House::Tile>(cols, House::Tile())), rows(rows), cols(cols) {
-    std::cout << "Creating a house with " << rows << " rows and " << cols << " colums" << std::endl;
-}
+House::House(size_t rows, size_t cols) : mat(rows, std::vector<House::Tile>(cols, House::Tile())), rows(rows), cols(cols) {}
 
 size_t House::getDirt(House::Location loc) const {
    return House::getDirt(loc.getRow(), loc.getCol());

@@ -18,9 +18,6 @@ VacuumCleaner::VacuumCleaner(size_t max_steps, size_t battery_size, House& house
 void VacuumCleaner::cleanHouse() {
     Algorithm algo(wall_sensor, battery_sensor, dirt_sensor, battery_size, current_location);
     for (size_t i = 0; i < max_steps; ++i) {
-
-        std::cout << std::endl << "current loc "  << this->history_path.topStep().toString() << std::endl;
-        std::cout << "current bat "  << this->current_battery << std::endl;
         if (current_total_dirt <= 0) {
             break;
         }
