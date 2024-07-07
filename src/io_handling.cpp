@@ -129,7 +129,7 @@ void FileReader::surroundHouseWithWalls(const StepHouse& step_house, House &hous
     // top and buttom rows:
     house_j = 0;
     for (size_t step_j = 1; step_j < num_step_cols; step_j += 2) {
-        if (isdigit(step_house.mat[0][step_j])) {
+        if (isdigit(step_house.mat[1][step_j])) {
             house.getTile(0, house_j).setNorthWall(true);
         }
         if (isdigit(step_house.mat[num_step_rows - 2][step_j])) {
