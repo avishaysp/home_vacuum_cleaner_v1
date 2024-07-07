@@ -244,7 +244,7 @@ void FileWriter::writePath(const Path& path) {
     }
 
     for (size_t i = 0; i < path.getLength() - 1; i++) {
-        file << '<' << path.getLocation(i).getRow() << ',' << path.getLocation(i).getCol() << "> -->" ;
+        file << '<' << path.getLocation(i).getRow() << ',' << path.getLocation(i).getCol() << "> --> " ;
     }
     file << '<' << path.getLocation(path.getLength() - 1).getRow() << ',' << path.getLocation(path.getLength() - 1).getCol() << '>';
 

@@ -2,7 +2,7 @@
 CXX = g++
 
 # Compiler flags
-CXXFLAGS = -std=c++20 -Wall -Wextra -Werror -pedantic 
+CXXFLAGS = -std=c++20 -Wall -Wextra -Werror -pedantic
 
 # Directories
 SRCDIR = src
@@ -10,7 +10,7 @@ BUILDDIR = build
 BINDIR = bin
 
 # Source files
-SRCS = $(wildcard $(SRCDIR)/*.cpp)
+SRCS = $(wildcard $(SRCDIR)/*.cpp) $(wildcard $(SRCDIR)/*/*.cpp)
 
 # Object files
 OBJS = $(patsubst $(SRCDIR)/%.cpp, $(BUILDDIR)/%.o, $(SRCS))
@@ -28,7 +28,11 @@ $(EXEC): $(OBJS)
 
 # Compile source files to object files
 $(BUILDDIR)/%.o: $(SRCDIR)/%.cpp
-	@mkdir -p $(BUILDDIR)
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(BUILDDIR)/%.o: $(SRCDIR)/*/%.cpp
+	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Clean up build files
