@@ -17,5 +17,5 @@ int main(int argc, char* argv[]) {
     FileWriter fw(output_file_path);
     fw.writeHouse(vacuumCleaner.getHouse());
     fw.writePath(vacuumCleaner.getPath());
-    return 0;
+    return EXIT_SUCCESS;
 }
