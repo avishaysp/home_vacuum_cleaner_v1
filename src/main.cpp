@@ -13,9 +13,11 @@ int main(int argc, char* argv[]) {
     FileReader::file_reader_output args = fr.readFile();
     VacuumCleaner vacuumCleaner(args.max_num_of_steps, args.max_battery_steps, args.house_map, args.docking_loc);
 
-    vacuumCleaner.cleanHouse();
+    VacuumCleaner::vacuum_cleaner_output result = vacuumCleaner.cleanHouse();
     FileWriter fw(output_file_path);
     fw.writePath(vacuumCleaner.getPath());
-    
+    fw.writedDirt(result.dirt_left);
+    fw.writedBat(result.battery_level);
+    fw.writedAccomplish(result.dirt_left, result.is_in_doc);
     return EXIT_SUCCESS;
 }

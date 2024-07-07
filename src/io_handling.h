@@ -59,4 +59,6 @@ public:
     void writeHouse(const House& house);
     void writePath(const Path& path);
     void writedDirt(size_t dirt);
+    void writedBat(size_t battery);
+    void writedAccomplish(size_t dirt, bool isInDock);
 };

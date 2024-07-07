@@ -79,7 +79,7 @@ public:
     size_t getRowsCount() const;
     size_t getColsCount() const;
 
-    size_t calc_total_dirt() const;
+    size_t calcTotalDirt() const;
 
 private:
     std::vector<std::vector<House::Tile>> mat;

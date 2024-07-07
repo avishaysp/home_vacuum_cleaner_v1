@@ -12,13 +12,13 @@ VacuumCleaner::VacuumCleaner(size_t max_steps, size_t battery_size, House& house
       wall_sensor(house, current_location),
       battery_sensor(current_battery),
       dirt_sensor(house, current_location),
-      current_total_dirt(house.calc_total_dirt()) {}
+      current_total_dirt(house.calcTotalDirt()) {}
 
 
-void VacuumCleaner::cleanHouse() {
+VacuumCleaner::vacuum_cleaner_output VacuumCleaner::cleanHouse() {
     Algorithm algo(wall_sensor, battery_sensor, dirt_sensor, battery_size, current_location);
     for (size_t i = 0; i < max_steps; ++i) {
-        if (current_total_dirt <= 0) {
+        if ((current_total_dirt <= 0) && (current_location == docking_loc)) {
             break;
         }
         Direction step = algo.nextStep();
@@ -44,6 +44,7 @@ void VacuumCleaner::cleanHouse() {
 
         addToHistory();
     }
+    return {current_battery, current_total_dirt, current_location == docking_loc};
 }
 
 

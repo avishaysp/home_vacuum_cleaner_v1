@@ -55,7 +55,7 @@ size_t House::getColsCount() const {
     return cols;
 }
 
-size_t House::calc_total_dirt() const {
+size_t House::calcTotalDirt() const {
     size_t sum = 0;
     for (size_t i = 0; i < rows; i++) {
         for (size_t j = 0; j < cols; j++) {
