@@ -243,6 +243,7 @@ void FileWriter::writePath(const Path& path) {
     file << '<' << path.getLocation(path.getLength() - 1).getRow() << ',' << path.getLocation(path.getLength() - 1).getCol() << '>';
 
     file << std::endl;
+    file << "Total number of steps performed: " << path.getLength() << std::endl;
 
     file.close();
 }
@@ -266,6 +267,27 @@ void FileWriter::writeHouse(const House& house) {
 
     file.close();
 }
+
+void FileWriter::writedDirt(const Vacum& house) {
+    std::ofstream file(file_path, std::ios_base::app);
+    if (!file.is_open()) {
+        throw std::runtime_error("Could not open file for writing");
+    }
+
+    size_t rows = house.getRowsCount();
+    size_t cols = house.getColsCount();
+
+    for (size_t row = 0; row < rows; row++) {
+        FileWriter::printTopWall(file, house, row, cols);
+        FileWriter::printDirt(file, house, row, cols);
+    }
+
+    // Print the bottom wall segment of the last row
+    printBottomWall(file, house, rows - 1, cols);
+
+    file.close();
+}
+
 
 void FileWriter::printTopWall(std::ofstream& file, const House& house, size_t row, size_t cols) const {
     file << "+";

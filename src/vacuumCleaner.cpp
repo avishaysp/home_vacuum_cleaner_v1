@@ -42,13 +42,10 @@ void VacuumCleaner::cleanHouse() {
             current_battery -= 1;
         }
 
-        add_to_history();
+        addToHistory();
     }
 }
 
-const House& VacuumCleaner::getHouse() const {
-    return house;
-}
 
 const Path& VacuumCleaner::getPath() const {
     return history_path;
@@ -59,7 +56,7 @@ void VacuumCleaner::move(const Direction direction) {
     current_location.setBoth(current_location.getRow() + direction.getX(), current_location.getCol() + direction.getY());
 }
 
-void VacuumCleaner::add_to_history() {
+void VacuumCleaner::addToHistory() {
     history_path.addEntry(current_location);
 }
 
@@ -71,3 +68,6 @@ void VacuumCleaner::updateHouse() {
     house.getTile(current_location).removeOneDirt();
 }
 
+size_t VacuumCleaner::getHistoryLength() const {
+    return history_path.getLength();
+}

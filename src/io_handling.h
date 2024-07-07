@@ -57,7 +57,6 @@ public:
     FileWriter(const std::string& file_path);
 
     void writeHouse(const House& house);
-
     void writePath(const Path& path);
-
+    void writedDirt(size_t dirt);
 };
