@@ -21,6 +21,7 @@ public:
     // Methods to get the row and col components of the direction
     int getX() const;
     int getY() const;
+    std::string toString() const;
 
 private:
     Value direction;

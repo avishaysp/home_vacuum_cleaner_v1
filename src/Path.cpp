@@ -34,7 +34,7 @@ House::Location Path::topStep() const {
 }
 
 void Path::cutPath(const size_t idx){
-    vec = std::vector<House::Location>(vec.begin(), vec.begin() + idx);
+    vec = std::vector<House::Location>(vec.begin(), vec.begin() + idx + 1);
 }
 
 House::Location Path::getPrev() const {
@@ -45,6 +45,21 @@ House::Location Path::getLocation(const int idx) const {
     return vec[idx];
 }
 
+int Path::getIndexOfLocation(const House::Location& loc) const {
+    for (int i = 0; i < static_cast<int>(getLength()); i++)
+    {
+        if (vec[i] == loc) return i;
+    }
+    return -1;
+}
+
+void Path::print() const {
+    std::cout << "path:";
+    for (const auto& elem : vec) {
+        std::cout << elem.toString() << " --> ";
+    }
+    std::cout << std::endl;
+}
 
 
 

@@ -23,8 +23,8 @@ class VacuumCleaner {
 
     void move(const Direction direction);
     void add_to_history();
-    void set_total_dirt();
-    void update_house();
+    void decreaseTotalDirt();
+    void updateHouse();
 
 
     public:

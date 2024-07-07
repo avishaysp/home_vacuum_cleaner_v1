@@ -1,4 +1,5 @@
 // house.cpp
+#include <format>
 #include "house.h"
 
 /* House */
@@ -104,6 +105,10 @@ bool House::Location::operator==(const House::Location& other) const {
 
 bool House::Location::operator!=(const House::Location& other) const {
     return !(*this == other);
+}
+
+std::string House::Location::toString() const {
+    return std::format("({}|{})",this->row, this->col);
 }
 
 void House::Location::print() const {

@@ -1,6 +1,6 @@
 #include "WallSensor.h"
 
-WallSensor::WallSensor(const House& house, const House::Location& curr_location) : house(house), curr_location(curr_location) {} 
+WallSensor::WallSensor(const House& house, const House::Location& curr_location) : house(house), curr_location(curr_location) {}
 
 
 std::vector<Direction> WallSensor::getPosibbleDirections() const {

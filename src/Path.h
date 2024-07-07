@@ -22,6 +22,9 @@ public:
     House::Location getPrev() const;
 
     House::Location getLocation(const int idx) const;
+    int getIndexOfLocation(const House::Location& loc) const;
+
+    void print() const;
 
 private:
 

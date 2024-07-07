@@ -32,6 +32,7 @@ class FileReader {
     static std::pair<size_t, size_t> getHouseDimensions(const std::string& filename);
     void surroundHouseWithWalls(const StepHouse& step_house, House& house) const;
     void parseHouse(const StepHouse& step_house, House& house) const;
+    bool isTransition(const StepHouse& step_house, size_t i1, size_t j1, size_t i2, size_t j2) const;
 
 public:
     FileReader(const std::string& file_path);
@@ -48,9 +49,9 @@ public:
 
 class FileWriter {
     std::string file_path;
-    void print_top_wall(std::ofstream& file, const House& house, size_t row, size_t cols) const;
-    void print_middle(std::ofstream& file, const House& house, size_t row, size_t cols) const;
-    void print_bottom_wall(std::ofstream& file, const House& house, size_t row, size_t cols) const;
+    void printTopWall(std::ofstream& file, const House& house, size_t row, size_t cols) const;
+    void printDirt(std::ofstream& file, const House& house, size_t row, size_t cols) const;
+    void printBottomWall(std::ofstream& file, const House& house, size_t row, size_t cols) const;
 
 public:
     FileWriter(const std::string& file_path);

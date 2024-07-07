@@ -64,6 +64,7 @@ public:
         bool operator==(const Location& other) const;
         bool operator!=(const Location& other) const;
 
+        std::string toString() const;
         void print() const;
     };
 
