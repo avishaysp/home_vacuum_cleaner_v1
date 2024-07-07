@@ -16,7 +16,7 @@ SRCS = $(wildcard $(SRCDIR)/*.cpp) $(wildcard $(SRCDIR)/*/*.cpp)
 OBJS = $(patsubst $(SRCDIR)/%.cpp, $(BUILDDIR)/%.o, $(SRCS))
 
 # Executable name
-EXEC = $(BINDIR)/test
+EXEC = $(BINDIR)/executable
 
 # Default target
 all: $(EXEC)
