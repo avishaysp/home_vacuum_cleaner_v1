@@ -33,5 +33,7 @@
 .vscode/settings.json
 test
 .DS_Store
-output.txt
+
+# Output
+output_*.txt
 
