@@ -55,7 +55,7 @@ House::Location FileReader::parseLocation(const std::string &str) const {
     );
 }
 
-std::pair<size_t, size_t> FileReader::getHouseDimensions(const std::string& filename) {
+std::pair<size_t, size_t> FileReader::getHouseDimensions(const std::string& filename) const {
     // opens a new fd, to avoid seek when returns
     std::ifstream file(filename);
     if (!file.is_open()) {

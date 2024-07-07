@@ -11,9 +11,6 @@ class House {
 public:
     House(size_t rows, size_t cols);
 
-    static const std::unordered_map<char, int> passages_to_negs;
-    static const std::unordered_map<int, char> negs_to_passages;
-
     class Tile {
         size_t dirt_level;
         bool wall_on_north;

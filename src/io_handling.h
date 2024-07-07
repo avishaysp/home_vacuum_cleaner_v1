@@ -29,7 +29,7 @@ class FileReader {
     std::vector<std::string> split(const std::string &str, const char delimiter) const;
     size_t strToSize_t(const std::string &str) const;
     House::Location parseLocation(const std::string& str) const;
-    static std::pair<size_t, size_t> getHouseDimensions(const std::string& filename);
+    std::pair<size_t, size_t> getHouseDimensions(const std::string& filename) const;
     void surroundHouseWithWalls(const StepHouse& step_house, House& house) const;
     void parseHouse(const StepHouse& step_house, House& house) const;
     bool isTransition(const StepHouse& step_house, size_t i1, size_t j1, size_t i2, size_t j2) const;
