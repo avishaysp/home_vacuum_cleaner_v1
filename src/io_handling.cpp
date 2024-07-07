@@ -55,7 +55,7 @@ House::Location FileReader::parseLocation(const std::string &str) const {
     );
 }
 
-std::pair<size_t, size_t> FileReader::getHouseDimensions(const std::string& filename) {
+std::pair<size_t, size_t> FileReader::getHouseDimensions(const std::string& filename) const {
     // opens a new fd, to avoid seek when returns
     std::ifstream file(filename);
     if (!file.is_open()) {
@@ -91,7 +91,6 @@ std::pair<size_t, size_t> FileReader::getHouseDimensions(const std::string& file
 bool FileReader::isTransition(const StepHouse& step_house, size_t i1, size_t j1, size_t i2, size_t j2) const {
     char x = step_house.mat[i1][j1];
     char y = step_house.mat[i2][j2];
-    // std::cout << "isTransition. x " << x << ", y " << y << " is it? " << (isdigit(x) != isdigit(y)) << " size_t i1, " << i1 <<" size_t j1, " << j1 <<" size_t i2 " << i2 << " size_t j2 " << j2 << std::endl;
     return (isdigit(x) != isdigit(y));
 }
 
@@ -130,7 +129,7 @@ void FileReader::surroundHouseWithWalls(const StepHouse& step_house, House &hous
     // top and buttom rows:
     house_j = 0;
     for (size_t step_j = 1; step_j < num_step_cols; step_j += 2) {
-        if (isdigit(step_house.mat[0][step_j])) {
+        if (isdigit(step_house.mat[1][step_j])) {
             house.getTile(0, house_j).setNorthWall(true);
         }
         if (isdigit(step_house.mat[num_step_rows - 2][step_j])) {
@@ -141,7 +140,6 @@ void FileReader::surroundHouseWithWalls(const StepHouse& step_house, House &hous
 
     house_i = 0;
     for (size_t step_i = 1; step_i < step_house.mat.size(); step_i += 2) {
-        std::cout << "step_i " << step_i << " house_i " << house_i << " isdigit " << step_house.mat[step_i][1] << std::endl;
         if (isdigit(step_house.mat[step_i][1])) {
             house.getTile(house_i, 0).setWestWall(true);
         }
@@ -236,7 +234,8 @@ FileWriter::FileWriter(const std::string& file_path) : file_path(file_path) {
 void FileWriter::writePath(const Path& path) {
     std::ofstream file(file_path, std::ios_base::app);
     if (!file.is_open()) {
-        throw std::runtime_error("Could not open file for writing");
+        std::cout << "Could not open file for writing" << std::endl;
+        std::exit(EXIT_FAILURE);
     }
 
     for (size_t i = 0; i < path.getLength() - 1; i++) {
@@ -245,6 +244,7 @@ void FileWriter::writePath(const Path& path) {
     file << '<' << path.getLocation(path.getLength() - 1).getRow() << ',' << path.getLocation(path.getLength() - 1).getCol() << '>';
 
     file << std::endl;
+    file << "Total number of steps performed: " << (path.getLength() - 1) << std::endl;
 
     file.close();
 }
@@ -252,7 +252,8 @@ void FileWriter::writePath(const Path& path) {
 void FileWriter::writeHouse(const House& house) {
     std::ofstream file(file_path, std::ios_base::app);
     if (!file.is_open()) {
-        throw std::runtime_error("Could not open file for writing");
+        std::cout << "Could not open file for writing" << std::endl;
+        std::exit(EXIT_FAILURE);
     }
 
     size_t rows = house.getRowsCount();
@@ -268,6 +269,42 @@ void FileWriter::writeHouse(const House& house) {
 
     file.close();
 }
+
+void FileWriter::writedDirt(size_t dirt) {
+    std::ofstream file(file_path, std::ios_base::app);
+    if (!file.is_open()) {
+        std::cout << "Could not open file for writing" << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+    file << "Final amount of dirt: " << dirt << std::endl;
+    file.close();
+}
+
+void FileWriter::writedBat(size_t battery) {
+    std::ofstream file(file_path, std::ios_base::app);
+    if (!file.is_open()) {
+        std::cout << "Could not open file for writing" << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+    file << "Battery level on finish: " << battery << std::endl;
+    file << (battery > 0 ? "Battery was not exhausted" :  "Battery is dead") << std::endl;
+    file.close();
+}
+
+void FileWriter::writedAccomplish(size_t dirt, bool isInDock) {
+    std::ofstream file(file_path, std::ios_base::app);
+    if (!file.is_open()) {
+        std::cout << "Could not open file for writing" << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+    if (dirt == 0 && isInDock) {
+        file << "Misson Accomplished!" << std::endl;
+    } else {
+        file << "Misson Not Accomplished..." << std::endl;
+    }
+    file.close();
+}
+
 
 void FileWriter::printTopWall(std::ofstream& file, const House& house, size_t row, size_t cols) const {
     file << "+";

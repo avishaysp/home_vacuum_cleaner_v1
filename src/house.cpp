@@ -4,9 +4,7 @@
 
 /* House */
 
-House::House(size_t rows, size_t cols) : mat(rows, std::vector<House::Tile>(cols, House::Tile())), rows(rows), cols(cols) {
-    std::cout << "Creating a house with " << rows << " rows and " << cols << " colums" << std::endl;
-}
+House::House(size_t rows, size_t cols) : mat(rows, std::vector<House::Tile>(cols, House::Tile())), rows(rows), cols(cols) {}
 
 size_t House::getDirt(House::Location loc) const {
    return House::getDirt(loc.getRow(), loc.getCol());
@@ -57,7 +55,7 @@ size_t House::getColsCount() const {
     return cols;
 }
 
-size_t House::calc_total_dirt() const {
+size_t House::calcTotalDirt() const {
     size_t sum = 0;
     for (size_t i = 0; i < rows; i++) {
         for (size_t j = 0; j < cols; j++) {

@@ -2,26 +2,22 @@
 #include "io_handling.h"
 #include "VacuumCleaner.h"
 
-int main() {
-    // FileReader fr = FileReader("INPUT_FORMAT.txt");
-    // FileReader::file_reader_output args = fr.readFile();
-    // std::cout << args.max_battery_steps << std::endl;
-    // std::cout << args.max_num_of_steps << std::endl;
-    // args.docking_loc.print();
-    // std::cout << "total dirt: " << args.house_map.calc_total_dirt() << std::endl;
-    // FileWriter fw("output.txt");
-    // fw.writeHouse(args.house_map);
-    // return 0;
-
-    FileReader fr("INPUT_FORMAT2.txt");
+int main(int argc, char* argv[]) {
+    if (argc != 2) {
+        std::cerr << "one argument required - inputfile, got " << argc << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+    std::string input_file_path = argv[1];
+    std::string output_file_path = "output_" + input_file_path;
+    FileReader fr(input_file_path);
     FileReader::file_reader_output args = fr.readFile();
-    FileWriter m("input_mat.txt");
-    m.writeHouse(args.house_map);
     VacuumCleaner vacuumCleaner(args.max_num_of_steps, args.max_battery_steps, args.house_map, args.docking_loc);
 
-    vacuumCleaner.cleanHouse();
-    FileWriter fw("output.txt");
-    fw.writeHouse(vacuumCleaner.getHouse());
+    VacuumCleaner::vacuum_cleaner_output result = vacuumCleaner.cleanHouse();
+    FileWriter fw(output_file_path);
     fw.writePath(vacuumCleaner.getPath());
-    return 0;
+    fw.writedDirt(result.dirt_left);
+    fw.writedBat(result.battery_level);
+    fw.writedAccomplish(result.dirt_left, result.is_in_doc);
+    return EXIT_SUCCESS;
 }
