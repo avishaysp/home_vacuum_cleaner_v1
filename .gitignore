@@ -31,9 +31,8 @@
 *.out
 *.app
 .vscode/settings.json
-test
+bin/executable
 .DS_Store
 
 # Output
 output_*.txt
-
