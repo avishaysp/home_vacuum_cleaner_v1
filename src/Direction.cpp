@@ -37,3 +37,15 @@ std::string Direction::toString() const {
         case Value::West: return "West";
     }
 }
+
+bool Direction::operator==(Value other) const {
+    return direction == other;
+}
+
+bool Direction::operator==(Direction other) const {
+    return direction == other.getValue();
+}
+
+bool Direction::operator!=(Value other) const {
+    return direction != other;
+}

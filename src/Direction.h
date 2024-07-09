@@ -23,6 +23,11 @@ public:
     int getY() const;
     std::string toString() const;
 
+    bool operator==(Value other) const;
+    bool operator==(Direction other) const;
+
+    bool operator!=(Value other) const;
+
 private:
     Value direction;
 };

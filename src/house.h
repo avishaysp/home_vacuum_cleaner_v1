@@ -62,6 +62,7 @@ public:
         bool operator!=(const Location& other) const;
 
         std::string toString() const;
+        friend std::ostream& operator<<(std::ostream& os, const Location& loc);
         void print() const;
     };
 

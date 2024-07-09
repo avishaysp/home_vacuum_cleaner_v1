@@ -25,6 +25,7 @@ public:
     int getIndexOfLocation(const House::Location& loc) const;
 
     void print() const;
+    friend std::ostream& operator<<(std::ostream& os, const Path& path);
 
 private:
 

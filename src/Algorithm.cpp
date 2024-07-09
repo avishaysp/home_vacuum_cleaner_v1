@@ -11,10 +11,12 @@ Algorithm::Algorithm(const WallSensor& wallSensor, const BatterySensor& batteryS
 
 Direction Algorithm::nextStep() {
     Direction decition = decide();
+
     if (!isDecitionPossible(decition)) {
         std::cerr << "Made an impossible decition. Exiting" << std::endl;
         std::exit(EXIT_FAILURE);
     }
+
     updatePath(decition);
     return decition;
 }
@@ -52,7 +54,7 @@ Direction Algorithm::decide() const {
 }
 
 void Algorithm::updatePath(const Direction decition) {
-    if (decition.getValue() != Direction::Value::Stay) {
+    if (decition != Direction::Value::Stay) {
         House::Location prev_location = current_path.topStep();
         House::Location current_location = House::Location(prev_location.getRow() + decition.getX(), prev_location.getCol() + decition.getY());
         int idx = current_path.getIndexOfLocation(current_location);
@@ -82,19 +84,19 @@ Direction Algorithm::locationsDiffToDirection(const House::Location curr, const 
 
 bool Algorithm::isDecitionPossible(Direction decition) const {
     auto curr_loc = current_path.topStep();
-    if (curr_loc.getCol() == 0 && decition.getValue() == Direction::Value::West) {
+    if (curr_loc.getCol() == 0 && decition == Direction::Value::West) {
         return false;
     }
-    if (curr_loc.getRow() == 0 && decition.getValue() == Direction::Value::North) {
+    if (curr_loc.getRow() == 0 && decition == Direction::Value::North) {
         return false;
     }
     auto pos_dir = wallSensor.getPosibbleDirections();
-    if (decition.getValue() == Direction::Value::Stay) {
+    if (decition == Direction::Value::Stay) {
         return true;
     }
     bool result = false;
     for (auto elem : pos_dir) {
-        if (decition.getValue() == elem.getValue()) {
+        if (decition == elem) {
             result = true;
             break;
         }
