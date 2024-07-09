@@ -237,13 +237,7 @@ void FileWriter::writePath(const Path& path) {
         std::cout << "Could not open file for writing" << std::endl;
         std::exit(EXIT_FAILURE);
     }
-
-    for (size_t i = 0; i < path.getLength() - 1; i++) {
-        file << path.getLocation(i) << " --> ";
-    }
-    file << path.getLocation(path.getLength() - 1);
-
-    file << std::endl;
+    file << path;
     file << "Total number of steps performed: " << (path.getLength() - 1) << std::endl;
 
     file.close();

@@ -54,13 +54,16 @@ int Path::getIndexOfLocation(const House::Location& loc) const {
 }
 
 void Path::print() const {
-    std::cout << "path:";
-    for (const auto& elem : vec) {
-        std::cout << elem << " --> ";
-    }
-    std::cout << std::endl;
+    std::cout << *this;
 }
 
-
+std::ostream& operator<<(std::ostream& os, const Path& path) {
+    os << path.vec[0];
+    for (size_t i = 1; i < path.vec.size(); ++i) {
+        os << " --> " << path.vec[i];
+    }
+    os << std::endl;
+    return os;
+}
 
 
