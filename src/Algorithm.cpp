@@ -11,10 +11,12 @@ Algorithm::Algorithm(const WallSensor& wallSensor, const BatterySensor& batteryS
 
 Direction Algorithm::nextStep() {
     Direction decition = decide();
+
     if (!isDecitionPossible(decition)) {
         std::cerr << "Made an impossible decition. Exiting" << std::endl;
         std::exit(EXIT_FAILURE);
     }
+
     updatePath(decition);
     return decition;
 }

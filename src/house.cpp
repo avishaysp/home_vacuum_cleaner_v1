@@ -109,6 +109,10 @@ std::string House::Location::toString() const {
     return std::format("({}|{})",this->row, this->col);
 }
 
+std::ostream& operator<<(std::ostream& os, const House::Location& loc) {
+    return os << std::format("({}|{})", loc.row, loc.col);
+}
+
 void House::Location::print() const {
     std::cout << "(" << (this->row) << "|" << (this->col) << ")" << std::endl;
 }

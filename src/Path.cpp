@@ -56,7 +56,7 @@ int Path::getIndexOfLocation(const House::Location& loc) const {
 void Path::print() const {
     std::cout << "path:";
     for (const auto& elem : vec) {
-        std::cout << elem.toString() << " --> ";
+        std::cout << elem << " --> ";
     }
     std::cout << std::endl;
 }
