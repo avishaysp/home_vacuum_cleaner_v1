@@ -21,7 +21,7 @@ class FileReader {
         size_t rows;
         size_t max_col;
 
-        StepHouse(std::__1::ifstream &file);
+        StepHouse(std::ifstream &file);
         std::pair<size_t, size_t> getFirstTileIndecies() const;
         void print() const;
     };

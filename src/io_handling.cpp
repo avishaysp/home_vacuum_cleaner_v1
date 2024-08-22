@@ -1,7 +1,7 @@
 // io_handling.cpp
 #include "io_handling.h"
 
-FileReader::StepHouse::StepHouse(std::__1::ifstream &file) {
+FileReader::StepHouse::StepHouse(std::ifstream &file) {
     std::string line;
     rows = 0;
     max_col = 0;
